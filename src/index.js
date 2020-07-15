@@ -21,6 +21,7 @@ app.set('view engine', '.hbs');
 // Middleware
 io.on('connection', (socket) => {
   console.log('a user connected');
+  
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -32,7 +33,54 @@ io.on('connection', (socket) => {
       io.emit('access', "nope");
     }
   });
-});
+
+  // cuando cambio un slide
+  socket.on('slide-changed', (data) =>{
+    console.log("slide changed / data = ", data);
+    io.emit('navigate', data);
+  });
+
+  // cuando interactuan con videos
+  socket.on('play', (data) => {
+    console.log("video play / data = ", data);
+    
+    // cambiando video de los clientes
+    io.emit("command", data);
+  });
+
+  // para las votaciones
+  socket.on('turnVotation', (data) => {
+    console.log("votacion 1 / data = ", data);
+
+    // activando votacion
+    io.emit("enableVotation", data);
+  });
+  socket.on('turnVotation2', (data) => {
+    console.log("votacion 2 / data = ", data);
+
+    // activando votacion
+    io.emit("enableVotation2", data);
+  });
+
+  // para las votaciones
+  socket.on('ideaRecieved', (data) => {
+    console.log("idea recibida / data = ", data);
+    //ideas
+    io.emit("newIdea", data);
+  });
+
+  socket.on('ideaVoted', (data) => {
+    console.log("idea votada / data = ", data);
+    // enviando votos
+    io.emit("voteRecieved", data);
+  });
+
+  // para los emails
+  socket.on('sendMail', (data) =>{
+    console.log("enviar correo / data = ", data);
+  });
+
+});// on connection end
 
 // Global vars
 

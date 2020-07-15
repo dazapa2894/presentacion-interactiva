@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="libs/reveal.js/dist/theme/black.css" id="theme">
   
   {{!-- SOLO SE MUESTRA EN EL INDEX (configurado desde routes/index.js) --}}
-  {{#if wowcss}}
+  {{#if votante}}
   <link type="text/css" rel="stylesheet" href="css/animate.css" />
   {{/if}}
   
@@ -62,7 +62,7 @@
         <section>
           <img class="pageBg" src="img/page4.jpg" alt="">
           <div class="page" id="page4">
-            <video id="SimonSinek" {{controls}} src="video/SimonSinek.mp4"></video>
+            <video id="SimonSinek" {{video_controls}} src="video/SimonSinek.mp4"></video>
           </div>
         </section>
     
@@ -79,28 +79,28 @@
         <section>
           <img class="pageBg" src="img/page7.jpg" alt="">
           <div class="page" id="page7">
-            <video id="calzatodo" {{controls}} src="video/calzatodo.mp4"></video>
+            <video id="calzatodo" {{video_controls}} src="video/calzatodo.mp4"></video>
           </div>
         </section>
     
         <section>
           <img class="pageBg" src="img/page8.jpg" alt="">
           <div class="page" id="page8">
-            <video id="Nintendo" {{controls}} src="video/Nintendo.mp4"></video>
+            <video id="Nintendo" {{video_controls}} src="video/Nintendo.mp4"></video>
           </div>
         </section>
     
         <section>
           <img class="pageBg" src="img/page9.jpg" alt="">
           <div class="page" id="page9">
-            <video id="Netflix" {{controls}} src="video/Netflix.mp4"></video>
+            <video id="Netflix" {{video_controls}} src="video/Netflix.mp4"></video>
           </div>
         </section>
     
         <section>
           <img class="pageBg" src="img/page10.jpg" alt="">
           <div class="page" id="page10">
-            <video id="croacia" {{controls}} src="video/croacia.mp4"></video>
+            <video id="croacia" {{video_controls}} src="video/croacia.mp4"></video>
           </div>
         </section>
     
@@ -119,14 +119,14 @@
         <section>
           <img class="pageBg" src="img/page13.jpg" alt="">
           <div class="page" id="page13">
-            <video id="GoogleMyLine" {{controls}} src="video/GoogleMyLine.mp4"></video>
+            <video id="GoogleMyLine" {{video_controls}} src="video/GoogleMyLine.mp4"></video>
           </div>
         </section>
     
         <section>
           <img class="pageBg" src="img/page14.jpg" alt="">
           <div class="page" id="page14">
-            <video id="cocacola" {{controls}} src="video/cocacola.mp4"></video>
+            <video id="cocacola" {{video_controls}} src="video/cocacola.mp4"></video>
           </div>
         </section>
     
@@ -134,13 +134,13 @@
           <section>
             <img class="pageBg" src="img/page15.jpg" alt="">
             <div class="page" id="page15">
-              <video id="corona" {{controls}} src="video/corona.mp4"></video>
+              <video id="corona" {{video_controls}} src="video/corona.mp4"></video>
             </div>
           </section>
           <section>
             <img class="pageBg" src="img/page15.jpg" alt="">
             <div class="page" id="page15">
-              <video id="falabella" {{controls}} src="video/falabella.mp4"></video>
+              <video id="falabella" {{video_controls}} src="video/falabella.mp4"></video>
             </div>
           </section>
         </section>
@@ -161,14 +161,14 @@
         <section>
           <img class="pageBg" src="img/page18.jpg" alt="">
           <div class="page" id="page18">
-            <video id="apple" {{controls}} src="video/apple.mp4"></video>
+            <video id="apple" {{video_controls}} src="video/apple.mp4"></video>
           </div>
         </section>
     
         <section>
           <img class="pageBg" src="img/page19.jpg" alt="">
           <div class="page" id="page19">
-            <video id="ikea" {{controls}} src="video/ikea.mp4"></video>
+            <video id="ikea" {{video_controls}} src="video/ikea.mp4"></video>
           </div>
         </section>
     
@@ -212,7 +212,7 @@
         <section>
           <img class="pageBg" src="img/page22.jpg" alt="">
           <div class="page" id="page22">
-            <video id="TOMSTV" {{controls}} src="video/TOMSTV.mp4"></video>
+            <video id="TOMSTV" {{video_controls}} src="video/TOMSTV.mp4"></video>
           </div>
         </section>
     
@@ -241,8 +241,8 @@
                 <input type="submit" value="➡" />
               </form>
               {{/if}}
-
               <div id="purposeHolder" class="placeHolder">
+
               </div>
             </div>
           </section>
@@ -276,7 +276,7 @@
 
 
     {{!-- SOLO SE MUESTRA EN EL INDEX (configurado desde routes/index.js) --}}
-    {{#if wowcss}}
+    {{#if votante}}
     <script src="js/wow.min.js"></script>
     <script>
       new WOW().init();

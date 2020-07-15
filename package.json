@@ -1,6 +1,6 @@
 {
   "name": "presentacion-interactiva",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "web para presentaciones interactivas y guiadas",
   "main": "index.js",
   "dependencies": {

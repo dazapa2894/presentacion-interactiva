@@ -119,11 +119,13 @@ $(function() {
 			});
 
 			$("#votacion").click(function(){
+				console.log("votacion clicked");
 				$("#ideaHolder").addClass("voting");
 				socket.emit('turnVotation', {
 					command: "on"
 				});
 			});
+
 			$("#votacion2").click(function(){
 				$("#purposeHolder").addClass("voting");
 				socket.emit('turnVotation2', {
