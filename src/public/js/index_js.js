@@ -60,7 +60,8 @@ $(function() {
 			$("#newIdea").val("");
 			socket.emit('ideaRecieved', {
 				idea: text, 
-				holder: "#ideaHolder"
+				holder: "#ideaHolder",
+				key: "my idea"
 			});
 		}
 		
@@ -75,7 +76,8 @@ $(function() {
 			$("#newPurpose").val("");
 			socket.emit('ideaRecieved', {
 				idea: text, 
-				holder: "#purposeHolder"
+				holder: "#purposeHolder",
+				key: "my purpose"
 			});
 		}
 		
@@ -169,7 +171,7 @@ $(function() {
 			});
 
 
-
+			// cuando se recibe un postit
 			socket.on('newIdea', function(data){
 
 				$(data.holder).append( '<div class="postit" id="'+data.key+'"><p>'+data.idea+'</p><span id="vote'+data.key+'">0</span></div>' );
