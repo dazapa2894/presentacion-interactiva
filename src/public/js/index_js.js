@@ -86,20 +86,21 @@ $(function() {
 	
 	
 	
-	$(document).on('click', '.postit', function( e ) {
+	$('.postit').click(function (e) {
+		console.log(e);
 		obj = e.target;
 		id = obj.id;
 		
 
-		if( votationEnabled ){
-			numVotes ++;
-			if( numVotes >= 5){
-				votationEnabled = false;
+			if( votationEnabled ){
+				numVotes ++;
+				if( numVotes >= 5){
+					votationEnabled = false;
+				}
+				socket.emit('ideaVoted', {
+					id: id
+				});
 			}
-			socket.emit('ideaVoted', {
-				id: id
-			});
-		}
 		
   	});
 	// The server will either grant or deny access, depending on the secret key

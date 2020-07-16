@@ -1,13 +1,15 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const mysql = require('mysql');
+const bodyparser = require('body-parser');
 
-//Initialization
+//Initialization ---------------------------
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-// settings
+// settings ---------------------------
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
@@ -18,7 +20,9 @@ app.engine('.hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 
-// Middleware
+// Middleware ---------------------------
+app.use(bodyparser.json());
+
 io.on('connection', (socket) => {
   console.log('a user connected');
   
@@ -78,19 +82,43 @@ io.on('connection', (socket) => {
   // para los emails
   socket.on('sendMail', (data) =>{
     console.log("enviar correo / data = ", data);
+
+    let sql = 'SELECT * FROM `test_table`';
+    connection.query(sql, (error, result) =>{
+      if(error) throw error;
+      if(result.length > 0){
+        console.log('result = ',result);
+      }else{
+        console.log('Not result');
+      }
+    })
   });
 
 });// on connection end
 
-// Global vars
 
-// Routes
+// Database ---------------------------
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'presentacion-interactiva'
+});
+
+connection.connect( error => {
+  if (error) throw error;
+  console.log('Database server running');
+});
+
+// Global vars  ---------------------------
+
+// Routes  ---------------------------
 app.use( require('./routes/index') );
 
-// Static Files
+// Static Files  ---------------------------
 app.use(express.static( path.join(__dirname, 'public') ));
 
-// Server listening
+// Server listening  ---------------------------
 http.listen(app.get('port'), () =>{
 console.log( 'Server on port', app.get('port') );
 });
