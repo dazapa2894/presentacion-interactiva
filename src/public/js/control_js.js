@@ -27,6 +27,7 @@ $(function () {
 	// Variable initialization
 
 	var form = $('form.login');
+	var resetForm = $('#reset');
 	var secretTextBox = form.find('input[type=text]');
 	var presentation = $('.reveal');
 
@@ -35,13 +36,29 @@ $(function () {
 
 	var playing = false;
 
+	// evito que salgan muchas notas repetidas al evitar que 'on access' se llame varias veces en un mismo cliente
+	let access_granted = false;
+	let my_unique_id = '';
+	let id_owned = false;
 
+	resetForm.submit((e) => {
+		e.preventDefault();
+
+		socket.emit('reset', {
+
+		});
+	});
 
 	// When the page is loaded it asks you for a key and sends it to the server
 
-	form.submit(function (e) {
+	form.submit((e) => {
 
 		e.preventDefault();
+
+		// Aviso al server sobre la coexion del controlador
+		socket.emit('');
+
+
 
 		//key = secretTextBox.val().trim();
 		key = "Dilian";
@@ -57,23 +74,32 @@ $(function () {
 
 	});
 
-	// evito que salgan muchas notas repetidas al evitar que 'on access' se llame varias veces en un mismo cliente
-	let access_granted = false;
-	
+	socket.on('reload', (data) => {
+		//location.reload();
+	});
+
 	// The server will either grant or deny access, depending on the secret key
-	socket.on('access', function (data) {
-		
+	socket.on('access', (data) => {
+
 		// Se ha conectado un nuevo visitante
 		console.log("llego esto: ", data);
-		
+
 		//si este cliente ya entro, entonces evito que se repitan todos los emit
 		if (access_granted) {
 			return;
 		}
 		// el cliente ya entro
 		access_granted = true;
-		
-		
+
+		if (!id_owned) {
+			id_owned = true;
+			// set my unique id
+			socket.on('your_id', (data) => {
+				my_unique_id = data;
+				console.log('MY ID = ', my_unique_id);
+			});
+		}
+
 		// Check if we have "granted" access.
 		// If we do, we can continue with the presentation.
 		if (data === "granted") {
@@ -131,18 +157,33 @@ $(function () {
 				});
 			});
 
+			$("video").on("webkitfullscreenchange mozfullscreenchange fullscreenchange", function (e) {
+				thaId = $(this).attr('id');
+				console.log("change fullscreen");
+				socket.emit('play', {
+					command: "fullscreen_change",
+					id: thaId,
+					key: key
+				});
+			});
+
+			
+
+			// in_fullscreen
+			// out_fullscreen
+
 			$("#votacion").click(function () {
 				console.log("votacion clicked");
 				$("#ideaHolder").addClass("voting");
 				socket.emit('turnVotation', {
-					command: "on"
+					isActive: true
 				});
 			});
 
 			$("#votacion2").click(function () {
 				$("#purposeHolder").addClass("voting");
 				socket.emit('turnVotation2', {
-					command: "on"
+					isActive: true
 				});
 			});
 			$("#mail").click(function () {
@@ -192,20 +233,18 @@ $(function () {
 
 			});
 
-			socket.on('newIdea', function (data) {
+			socket.on('refresh_ideas', function (data) {
 
-				$(data.holder).append('<div class="postit" id="' + data.key + '"><p>' + data.idea + '</p><span id="vote' + data.key + '">0</span></div>');
+				console.log(data);
+				// vacio todos los placeholders
+				$(".placeHolder").empty();
 
-			});
-
-			socket.on('voteRecieved', function (data) {
-
-				obj = document.getElementById("vote" + data.id);
-				cant = parseInt(obj.innerHTML);
-				cant++;
-				obj.innerHTML = cant;
+				Object.values(data).forEach(idea => {
+					$(idea.holder).append('<div class="postit" id="' + idea.key + '"><p>' + idea.idea + '</p><span id="' + idea.key + '">' + idea.votes + '</span></div>');
+				});
 
 			});
+
 
 		} else {
 

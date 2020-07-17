@@ -72,6 +72,9 @@
     <form class="login">
       <span>Entrar</span>
       <!--<input type="text" placeholder="Please enter your secret key!"/>-->
+      {{#if votante}}
+      <input required type="text" name="user_name" id="user_name">
+      {{/if}}
       <input type="submit" value="➡" />
     </form>
     
@@ -227,7 +230,7 @@
               
               {{#if votante}}
               <form id="creencia">
-                <input type="text" id="newIdea" placeholder="Creemos que..." />
+                <input type="text" id="newIdea" maxlength="45" placeholder="Creemos que..." />
                 <input type="submit" value="➡" />
               </form>
               {{/if}}
@@ -271,7 +274,7 @@
               
               {{#if votante}}
               <form id="proposito">
-                <input type="text" id="newPurpose" placeholder="..." />
+                <input type="text" id="newPurpose" maxlength="45" placeholder="Proposito..." />
                 <input type="submit" value="➡" />
               </form>
               {{/if}}

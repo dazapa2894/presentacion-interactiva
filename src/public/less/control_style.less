@@ -157,9 +157,6 @@
   }
 }
 
-/* -- Blur effect -- */
-/* -- Demo ads -- */
-/* -- Link to Tutorialzine -- */
 * {
   padding: 0;
   margin: 0;
@@ -169,6 +166,13 @@ body {
   background-color: #f0f1f3;
   color: #667073;
   font: 16px/1.3 'Arial', sans-serif;
+}
+
+#reset {
+  input {
+    background-color: #b1782e;
+    width: 130px;
+  }
 }
 
 .homebanner {
@@ -309,7 +313,12 @@ div.reveal {
   overflow-y: auto;
 
   .postit {
+    p {
+      pointer-events: none;
+    }
+
     span {
+      pointer-events: none;
       opacity: 0;
     }
   }
