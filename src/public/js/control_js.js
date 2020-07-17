@@ -1,10 +1,10 @@
-$(function() {
+$(function () {
 
 	// Initialize the Reveal.js library with the default config options
 	// See more here https://github.com/hakimel/reveal.js#configuration
 
 	Reveal.initialize({
-		history: true,		// Every slide will change the URL
+		history: true, // Every slide will change the URL
 		width: "100%",
 		height: "100%",
 		// Display a presentation progress bar
@@ -30,15 +30,16 @@ $(function() {
 	var secretTextBox = form.find('input[type=text]');
 	var presentation = $('.reveal');
 
-	var key = "", animationTimeout;
+	var key = "",
+		animationTimeout;
 
 	var playing = false;
 
-	
+
 
 	// When the page is loaded it asks you for a key and sends it to the server
 
-	form.submit(function(e){
+	form.submit(function (e) {
 
 		e.preventDefault();
 
@@ -48,7 +49,7 @@ $(function() {
 		// If there is a key, send it to the server-side
 		// through the socket.io channel with a 'load' event.
 
-		if(key.length) {
+		if (key.length) {
 			socket.emit('load', {
 				key: key
 			});
@@ -56,14 +57,26 @@ $(function() {
 
 	});
 
+	// evito que salgan muchas notas repetidas al evitar que 'on access' se llame varias veces en un mismo cliente
+	let access_granted = false;
+	
 	// The server will either grant or deny access, depending on the secret key
-
-	socket.on('access', function(data){
-		console.log("llego esto: ",data);
+	socket.on('access', function (data) {
+		
+		// Se ha conectado un nuevo visitante
+		console.log("llego esto: ", data);
+		
+		//si este cliente ya entro, entonces evito que se repitan todos los emit
+		if (access_granted) {
+			return;
+		}
+		// el cliente ya entro
+		access_granted = true;
+		
+		
 		// Check if we have "granted" access.
 		// If we do, we can continue with the presentation.
-
-		if(data === "granted") {
+		if (data === "granted") {
 
 			// Unblur everything
 			presentation.removeClass('blurred');
@@ -72,12 +85,12 @@ $(function() {
 
 			var ignore = false;
 
-			$(window).on('hashchange', function(){
+			$(window).on('hashchange', function () {
 
 				// Notify other clients that we have navigated to a new slide
 				// by sending the "slide-changed" message to socket.io
 
-				if(ignore){
+				if (ignore) {
 					// You will learn more about "ignore" in a bit
 					return;
 				}
@@ -113,12 +126,12 @@ $(function() {
 				socket.emit('play', {
 					command: "seek",
 					id: thaId,
-					time: Math.floor( e.target.currentTime),
+					time: Math.floor(e.target.currentTime),
 					key: key
 				});
 			});
 
-			$("#votacion").click(function(){
+			$("#votacion").click(function () {
 				console.log("votacion clicked");
 				$("#ideaHolder").addClass("voting");
 				socket.emit('turnVotation', {
@@ -126,19 +139,19 @@ $(function() {
 				});
 			});
 
-			$("#votacion2").click(function(){
+			$("#votacion2").click(function () {
 				$("#purposeHolder").addClass("voting");
 				socket.emit('turnVotation2', {
 					command: "on"
 				});
 			});
-			$("#mail").click(function(){
+			$("#mail").click(function () {
 				text = "Creencias: ";
 				text += " || ";
-				items =  document.querySelectorAll("#ideaHolder .postit p");
-				itemsVotes =  document.querySelectorAll("#ideaHolder .postit span");
+				items = document.querySelectorAll("#ideaHolder .postit p");
+				itemsVotes = document.querySelectorAll("#ideaHolder .postit span");
 				for (i = 0; i < items.length; i++) {
-					text += items[i].innerHTML + ", votos: "+itemsVotes[i].innerHTML;
+					text += items[i].innerHTML + ", votos: " + itemsVotes[i].innerHTML;
 					text += " || ";
 				}
 				//alert(text);
@@ -146,13 +159,13 @@ $(function() {
 					text: text
 				});
 			});
-			$("#mail2").click(function(){
+			$("#mail2").click(function () {
 				text = "Propósitos: ";
 				text += " || ";
-				items =  document.querySelectorAll("#purposeHolder .postit p");
-				itemsVotes =  document.querySelectorAll("#purposeHolder .postit span");
+				items = document.querySelectorAll("#purposeHolder .postit p");
+				itemsVotes = document.querySelectorAll("#purposeHolder .postit span");
 				for (i = 0; i < items.length; i++) {
-					text += items[i].innerHTML + ", votos: "+itemsVotes[i].innerHTML;
+					text += items[i].innerHTML + ", votos: " + itemsVotes[i].innerHTML;
 					text += " || ";
 				}
 				socket.emit('sendMail', {
@@ -161,8 +174,8 @@ $(function() {
 			});
 
 
-			socket.on('navigate', function(data){
-	
+			socket.on('navigate', function (data) {
+
 				// Another device has changed its slide. Change it in this browser, too:
 
 				window.location.hash = data.hash;
@@ -175,27 +188,26 @@ $(function() {
 
 				setInterval(function () {
 					ignore = false;
-				},100);
+				}, 100);
 
 			});
 
-			socket.on('newIdea', function(data){
+			socket.on('newIdea', function (data) {
 
-				$(data.holder).append( '<div class="postit" id="'+data.key+'"><p>'+data.idea+'</p><span id="vote'+data.key+'">0</span></div>' );
-		
+				$(data.holder).append('<div class="postit" id="' + data.key + '"><p>' + data.idea + '</p><span id="vote' + data.key + '">0</span></div>');
+
 			});
 
-			socket.on('voteRecieved', function(data){
+			socket.on('voteRecieved', function (data) {
 
-				obj = document.getElementById("vote"+data.id);
-				cant = parseInt( obj.innerHTML);
-				cant ++;
+				obj = document.getElementById("vote" + data.id);
+				cant = parseInt(obj.innerHTML);
+				cant++;
 				obj.innerHTML = cant;
 
 			});
 
-		}
-		else {
+		} else {
 
 			// Wrong secret key
 
@@ -205,8 +217,8 @@ $(function() {
 			// animation that shakes the text input.
 
 			secretTextBox.addClass('denied animation');
-			
-			animationTimeout = setTimeout(function(){
+
+			animationTimeout = setTimeout(function () {
 				secretTextBox.removeClass('animation');
 			}, 1000);
 
