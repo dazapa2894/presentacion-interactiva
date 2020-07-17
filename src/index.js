@@ -68,12 +68,30 @@ app.use(bodyparser.json());
 
 // Sockets
 io.on('connection', (socket) => {
+
   console.log('a user connected');
   
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
+  /* 
+  llenar variables del servidor que controlen: 
+  - el hash actual de la presentacion
+  - el array de objetos que mantiene actualizados a los ususarios
+  - el objeto que controla los videos
   
+  */
+
+  socket.on('user_disconnect', () => {
+    console.log('user disconnected');
+    // eliminar de la lista de usuarios conectados
+  });
+
+  socket.on('controler_disconnect', () => {
+    console.log('controler disconnected');
+
+    // limpiar variables del servidor
+
+    // sacar a todos los ususrio a la url de 'presentacion terminada' 
+  });
+
   socket.on('load', (data) => {
     console.log(data.key);
     if (data.key == "Dilian") {
