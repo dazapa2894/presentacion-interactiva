@@ -108,7 +108,7 @@ $(function() {
 	// The server will either grant or deny access, depending on the secret key
 
 	// evito que salgan muchas notas repetidas al evitar que 'on access' se llame varias veces en un mismo cliente
-	const access_granted = false;
+	let access_granted = false;
 	
 	
 	socket.on('access', function(data){
