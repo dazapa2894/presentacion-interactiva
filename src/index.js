@@ -11,7 +11,6 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-app.get('/cool', (req, res) => res.send(cool()));
 
 // settings ---------------------------
 app.set('port', process.env.PORT || 3000);
@@ -24,9 +23,22 @@ app.engine('.hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 
+// HEROKU TEST
+app.get('/cool', (req, res) => res.send(cool()));
+app.get('/times', (req, res) => res.send(showTimes()))
+showTimes = () => {
+  let result = '';
+  const times = process.env.TIMES || 5;
+  for (i = 0; i < times; i++) {
+    result += i + ' ';
+  }
+  return result;
+}
+
 // Middleware ---------------------------
 app.use(bodyparser.json());
 
+// Sockets
 io.on('connection', (socket) => {
   console.log('a user connected');
   
@@ -128,3 +140,4 @@ app.use(express.static( path.join(__dirname, 'public') ));
 http.listen(app.get('port'), () =>{
 console.log( 'Server on port', app.get('port') );
 });
+
