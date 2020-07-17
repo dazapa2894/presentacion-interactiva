@@ -108,11 +108,13 @@ const connection = mysql.createConnection({
   password: '',
   database: 'presentacion-interactiva'
 });
-
+/*
 connection.connect( error => {
   if (error) throw error;
   console.log('Database server running');
 });
+*/
+
 
 // Global vars  ---------------------------
 
