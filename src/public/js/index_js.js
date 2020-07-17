@@ -107,7 +107,18 @@ $(function() {
   	});
 	// The server will either grant or deny access, depending on the secret key
 
+	// evito que salgan muchas notas repetidas al evitar que 'on access' se llame varias veces en un mismo cliente
+	const access_granted = false;
+	
+	
 	socket.on('access', function(data){
+
+		//si este cliente ya entro, entonces evito que se repitan todos los emit
+		if (access_granted) {
+			return;
+		}
+		// el cliente ya entro
+		access_granted = true;
 
 		// Check if we have "granted" access.
 		// If we do, we can continue with the presentation.
@@ -226,6 +237,6 @@ $(function() {
 			form.show();
 		}
 
-	});
+	}); // EMIT ACCESS
 
 });

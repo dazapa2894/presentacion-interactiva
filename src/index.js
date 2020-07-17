@@ -73,6 +73,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+  
   socket.on('load', (data) => {
     console.log(data.key);
     if (data.key == "Dilian") {
