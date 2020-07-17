@@ -4,10 +4,14 @@ const exphbs = require('express-handlebars');
 const mysql = require('mysql');
 const bodyparser = require('body-parser');
 
+const cool = require('cool-ascii-faces');
+
 //Initialization ---------------------------
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+
+app.get('/cool', (req, res) => res.send(cool()));
 
 // settings ---------------------------
 app.set('port', process.env.PORT || 3000);
