@@ -32,6 +32,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 
+
 // settings ---------------------------
 app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
@@ -79,6 +80,12 @@ let votacion_ideas_activa = false;
 let votacion_purpose_activa = false;
 let video_array = [];
 let session_id = '';
+
+if (session_id == '') {
+  session_id = uuidv4();
+  console.log(session_id);
+}
+
 io.on('connection', (socket) => {
 
   console.log('a user connected');
@@ -105,6 +112,7 @@ io.on('connection', (socket) => {
     // sacar a todos los ususrio a la url de 'presentacion terminada' 
   });
   */
+
 
   socket.on('reset', (data) => {
     //no envio datos
@@ -197,19 +205,34 @@ io.on('connection', (socket) => {
 
   });
 
-  // para los emails
-  socket.on('sendMail', (data) => {
-    console.log("enviar correo / data = ", data);
+  // para guardar filas en la BD
 
-    // let sql = 'SELECT * FROM `test_table`';
-    // connection.query(sql, (error, result) => {
-    //   if (error) throw error;
-    //   if (result.length > 0) {
-    //     console.log('result = ', result);
-    //   } else {
-    //     console.log('Not result');
-    //   }
-    // })
+
+  socket.on('save_ideas', (data) => {
+    console.log(data);
+  });
+  socket.on('save_purposes', (data) => {
+
+    let posts = data.posts;
+
+    Object.keys(posts).forEach(key => {
+      // console.log(key, posts[key]);
+      // console.log(posts[key].post_id);
+      // console.log(posts[key].post_text);
+      // console.log(posts[key].post_votes);
+
+      try {
+        const client = pool.connect();
+        //let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
+        let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3)",
+          [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+        client.release();
+      } catch (err) {
+        console.error(err);
+        console.log("Error " + err);
+      }
+
+    });
 
   });
 

@@ -167,7 +167,7 @@ $(function () {
 				});
 			});
 
-			
+
 
 			// in_fullscreen
 			// out_fullscreen
@@ -186,32 +186,55 @@ $(function () {
 					isActive: true
 				});
 			});
-			$("#mail").click(function () {
-				text = "Creencias: ";
-				text += " || ";
-				items = document.querySelectorAll("#ideaHolder .postit p");
-				itemsVotes = document.querySelectorAll("#ideaHolder .postit span");
-				for (i = 0; i < items.length; i++) {
-					text += items[i].innerHTML + ", votos: " + itemsVotes[i].innerHTML;
-					text += " || ";
-				}
-				//alert(text);
-				socket.emit('sendMail', {
-					text: text
+			$("#save_idea").click(function () {
+
+				let all = {};
+				let post_id = '';
+				let post_text = '';
+				let post_votes = '';
+
+				$("#ideaHolder .postit").each((index, elem) => {
+
+					post_id = $(elem).attr("id");
+					post_text = $(elem).find("p").html();
+					post_votes = $(elem).find("span").html();
+
+					all[post_id] = {
+						post_id:post_id,
+						post_text:post_text,
+						post_votes:post_votes
+					}
+				});
+
+				socket.emit('save_ideas', {
+					posts: all,
 				});
 			});
-			$("#mail2").click(function () {
-				text = "Propósitos: ";
-				text += " || ";
-				items = document.querySelectorAll("#purposeHolder .postit p");
-				itemsVotes = document.querySelectorAll("#purposeHolder .postit span");
-				for (i = 0; i < items.length; i++) {
-					text += items[i].innerHTML + ", votos: " + itemsVotes[i].innerHTML;
-					text += " || ";
-				}
-				socket.emit('sendMail', {
-					text: text
+
+
+			$("#save_purpose").click(function () {
+				let all = {};
+				let post_id = '';
+				let post_text = '';
+				let post_votes = '';
+
+				$("#purposeHolder .postit").each((index, elem) => {
+
+					post_id = $(elem).attr("id");
+					post_text = $(elem).find("p").html();
+					post_votes = $(elem).find("span").html();
+
+					all[post_id] = {
+						post_id:post_id,
+						post_text:post_text,
+						post_votes:post_votes
+					}
 				});
+
+				socket.emit('save_purposes', {
+					posts: all,
+				});
+
 			});
 
 
