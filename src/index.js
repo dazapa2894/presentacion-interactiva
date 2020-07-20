@@ -57,7 +57,7 @@ app.get('/db', async (req, res) => {
     const results = {
       'row': (result) ? result.rows : null
     };
-    res.render('pages/db', {
+    res.render('db_views/db', {
       showdb: true,
       res: results.row
     });
