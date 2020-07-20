@@ -237,9 +237,8 @@ io.on('connection', (socket) => {
 
             try {
               const client = pool.connect();
-              //let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
-              let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);",
-                [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+              let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
+              //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
               client.release();
             } catch (err) {
               console.error(err);
