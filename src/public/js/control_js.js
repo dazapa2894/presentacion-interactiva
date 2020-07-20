@@ -232,7 +232,7 @@ $(function () {
 				});
 
 				socket.emit('save_purposes', {
-					posts: all,
+					posts: all
 				});
 
 			});

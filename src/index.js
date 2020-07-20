@@ -17,6 +17,7 @@ const cool = require('cool-ascii-faces');
 const {
   Pool
 } = require('pg');
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -25,6 +26,7 @@ const pool = new Pool({
   // ssl: process.env.DATABASE_URL ? true : false
 });
 
+const client = pool.connect();
 
 //Initialization ---------------------------
 const app = express();
@@ -178,6 +180,7 @@ io.on('connection', (socket) => {
     // activando votacion
     io.emit("enableVotation", data);
   });
+
   socket.on('turnVotation2', (data) => {
     console.log("votacion 2 / data = ", data);
     votacion_purpose_activa = data.isActive;
@@ -210,51 +213,68 @@ io.on('connection', (socket) => {
   });
 
   // para guardar filas en la BD
-
-
   socket.on('save_ideas', (data) => {
     console.log(data);
   });
 
   socket.on('save_purposes', (data) => {
 
-    app.all('*', async (req, res) => {
+    // app.all('*', async (req, res) => {
       let posts = data.posts;
 
       Object.keys(posts).forEach(key => {
-            // console.log(key, posts[key]);
+            console.log(key, posts[key]);
             // console.log(posts[key].post_id);
             // console.log(posts[key].post_text);
             // console.log(posts[key].post_votes);
 
-            const pool = new Pool({
-              connectionString: process.env.DATABASE_URL,
-              ssl: {
-                rejectUnauthorized: false
-              },
-              // ssl: process.env.DATABASE_URL ? true : false
-            });
 
             try {
               const client = pool.connect();
-              let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
-              //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
-              console.log(results);
-              let insert_results = {
-                'row': (session_result) ? session_result.rows : null
-              };
-              console.log(insert_results);
-              client.release();
+              client.then(conecction => {
+                let results = conecction.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
+                //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+                console.log(results);
+                let insert_results = {
+                  'row': (session_result) ? session_result.rows : null
+                };
+                console.log(insert_results);
+                conecction.release();
+              });
+
             } catch (err) {
               console.error(err);
               console.log("Error " + err);
             }
+
+            // const pool = new Pool({
+            //   connectionString: process.env.DATABASE_URL,
+            //   ssl: {
+            //     rejectUnauthorized: false
+            //   },
+            //   // ssl: process.env.DATABASE_URL ? true : false
+            // });
+
+            // try {
+            //   const client = pool.connect();
+            //   let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
+            //   //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+            //   console.log(results);
+            //   let insert_results = {
+            //     'row': (session_result) ? session_result.rows : null
+            //   };
+            //   console.log(insert_results);
+            //   client.release();
+            // } catch (err) {
+            //   console.error(err);
+            //   console.log("Error " + err);
+            // }
     })
 
 
     
 
-    });
+    // });
 
   });
 
