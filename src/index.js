@@ -23,7 +23,6 @@ const pool = new Pool({
     rejectUnauthorized: false
   },
   // ssl: process.env.DATABASE_URL ? true : false
-
 });
 
 
