@@ -191,7 +191,7 @@ io.on('connection', (socket) => {
 
     // actializo el array de ideas
     postit_array[data.key] = data;
-    console.log(postit_array);
+    
     //ideas
     io.emit("refresh_ideas", postit_array);
   });
@@ -200,8 +200,8 @@ io.on('connection', (socket) => {
     console.log("idea votada / data = ", data);
     // enviando votos
     console.log('ideaVoted...');
-    console.log(data);
-    console.log(postit_array[data.id]);
+    // console.log(data);
+    // console.log(postit_array[data.id]);
 
     postit_array[data.id].votes = data.num_votes;
 
@@ -239,6 +239,11 @@ io.on('connection', (socket) => {
               const client = pool.connect();
               let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
               //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+              console.log(results);
+              let insert_results = {
+                'row': (session_result) ? session_result.rows : null
+              };
+              console.log(insert_results);
               client.release();
             } catch (err) {
               console.error(err);
