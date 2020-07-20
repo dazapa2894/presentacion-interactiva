@@ -52,14 +52,18 @@ app.get('/cool', (req, res) => res.send(cool()));
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
-    const test = await client.query("INSERT INTO sessions_info  (session_id) values ('test-id');");
-    const result = await client.query('SELECT * FROM sessions_info');
-    const results = {
-      'row': (result) ? result.rows : null
+    const session_result = await client.query('SELECT * FROM sessions_info');
+    const other_result = await client.query('SELECT * FROM sessions_info');
+    const session_results = {
+      'row': (session_result) ? session_result.rows : null
+    };
+    const other_results = {
+      'row': (other_result) ? other_result.rows : null
     };
     res.render('db_views/db', {
       showdb: true,
-      res: results.row
+      all_sessions: session_results.row,
+      this_session: other_results.row
     });
     client.release();
   } catch (err) {
