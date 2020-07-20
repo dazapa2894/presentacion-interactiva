@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../db');
 
 router.get('/', (req, res) => {
   res.render('index', {
@@ -19,6 +20,22 @@ router.get('/control', (req, res) => {
     controlador: true,
     script_name: "control_js"
   })
+});
+
+router.get('/api/db', async (req, res, next) => {
+
+  try {
+    let results = await db.all();
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+
+  // res.render('db_views/all',{
+  //   showdb: true,
+  //   test: 'test'
+  // });
 });
 
 

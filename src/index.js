@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const apiRouter = require('./routes');
 // const mysql = require('mysql');
 const bodyparser = require('body-parser');
 // unique id creator
@@ -20,7 +21,9 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  // ssl: process.env.DATABASE_URL ? true : false
+
 });
 
 
@@ -49,7 +52,7 @@ app.get('/cool', (req, res) => res.send(cool()));
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
-    const result = await client.query('SELECT * FROM test_table');
+    const result = await client.query('SELECT * FROM sessions_info');
     const results = {
       'row': (result) ? result.rows : null
     };
@@ -198,16 +201,16 @@ io.on('connection', (socket) => {
   socket.on('sendMail', (data) => {
     console.log("enviar correo / data = ", data);
 
-    let sql = 'SELECT * FROM `test_table`';
-    connection.query(sql, (error, result) => {
-      if (error) throw error;
-      if (result.length > 0) {
-        console.log('result = ', result);
-      } else {
-        console.log('Not result');
-      }
-    })
-  });
+  //   let sql = 'SELECT * FROM `test_table`';
+  //   connection.query(sql, (error, result) => {
+  //     if (error) throw error;
+  //     if (result.length > 0) {
+  //       console.log('result = ', result);
+  //     } else {
+  //       console.log('Not result');
+  //     }
+  //   })
+  // });
 
 }); // on connection end
 
@@ -230,7 +233,8 @@ connection.connect( error => {
 // Global vars  ---------------------------
 
 // Routes  ---------------------------
-app.use(require('./routes/index'));
+app.use(apiRouter);
+app.use('/api/db', apiRouter);
 
 // Static Files  ---------------------------
 app.use(express.static(path.join(__dirname, 'public')));
