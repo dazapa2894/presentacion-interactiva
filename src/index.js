@@ -53,7 +53,7 @@ app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
     const session_result = await client.query('SELECT * FROM sessions_info');
-    const other_result = await client.query('SELECT * FROM sessions_info');
+    const other_result = await client.query('SELECT * FROM unique_id');
     const session_results = {
       'row': (session_result) ? session_result.rows : null
     };
@@ -218,32 +218,37 @@ io.on('connection', (socket) => {
 
   socket.on('save_purposes', (data) => {
 
-    let posts = data.posts;
+    app.all('*', async (req, res) => {
+      let posts = data.posts;
 
-    Object.keys(posts).forEach(key => {
-      // console.log(key, posts[key]);
-      // console.log(posts[key].post_id);
-      // console.log(posts[key].post_text);
-      // console.log(posts[key].post_votes);
+      Object.keys(posts).forEach(key => {
+            // console.log(key, posts[key]);
+            // console.log(posts[key].post_id);
+            // console.log(posts[key].post_text);
+            // console.log(posts[key].post_votes);
 
-      const pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        },
-        // ssl: process.env.DATABASE_URL ? true : false
-      });
-      
-      try {
-        const client = pool.connect();
-        //let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
-        let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3)",
-          [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
-        client.release();
-      } catch (err) {
-        console.error(err);
-        console.log("Error " + err);
-      }
+            const pool = new Pool({
+              connectionString: process.env.DATABASE_URL,
+              ssl: {
+                rejectUnauthorized: false
+              },
+              // ssl: process.env.DATABASE_URL ? true : false
+            });
+
+            try {
+              const client = pool.connect();
+              //let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
+              let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3)",
+                [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+              client.release();
+            } catch (err) {
+              console.error(err);
+              console.log("Error " + err);
+            }
+    })
+
+
+    
 
     });
 
