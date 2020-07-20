@@ -215,6 +215,7 @@ io.on('connection', (socket) => {
   socket.on('save_ideas', (data) => {
     console.log(data);
   });
+
   socket.on('save_purposes', (data) => {
 
     let posts = data.posts;
@@ -225,6 +226,14 @@ io.on('connection', (socket) => {
       // console.log(posts[key].post_text);
       // console.log(posts[key].post_votes);
 
+      const pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        },
+        // ssl: process.env.DATABASE_URL ? true : false
+      });
+      
       try {
         const client = pool.connect();
         //let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
