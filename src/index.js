@@ -231,15 +231,19 @@ io.on('connection', (socket) => {
 
             try {
               const client = pool.connect();
-              client.then(conecction => {
-                let results = conecction.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
-                //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
-                console.log(results);
-                let insert_results = {
-                  'row': (session_result) ? session_result.rows : null
-                };
-                console.log(insert_results);
-                conecction.release();
+              client.then(connection => {
+                // let session_result = connection.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
+                let session_result = connection.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
+                
+                session_result.then(results => {
+                  console.log(results);
+                  let insert_results = {
+                    'row': (results) ? results.rows: null
+                  };
+                  console.log(insert_results);
+                });
+                
+                connection.release();
               });
 
             } catch (err) {
