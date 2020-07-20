@@ -201,16 +201,17 @@ io.on('connection', (socket) => {
   socket.on('sendMail', (data) => {
     console.log("enviar correo / data = ", data);
 
-  //   let sql = 'SELECT * FROM `test_table`';
-  //   connection.query(sql, (error, result) => {
-  //     if (error) throw error;
-  //     if (result.length > 0) {
-  //       console.log('result = ', result);
-  //     } else {
-  //       console.log('Not result');
-  //     }
-  //   })
-  // });
+    // let sql = 'SELECT * FROM `test_table`';
+    // connection.query(sql, (error, result) => {
+    //   if (error) throw error;
+    //   if (result.length > 0) {
+    //     console.log('result = ', result);
+    //   } else {
+    //     console.log('Not result');
+    //   }
+    // })
+
+  });
 
 }); // on connection end
 
