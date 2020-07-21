@@ -9,7 +9,7 @@ ALTER TABLE sessions_info ALTER COLUMN creation_date TYPE timestamp;
 ALTER TABLE sessions_info ALTER COLUMN creation_date SET DEFAULT current_timestamp;
 ALTER TABLE sessions_info ADD UNIQUE (session_id);
 
-CREATE TABLE unique_id ( id SERIAL PRIMARY KEY , post_id VARCHAR(128) NOT NULL UNIQUE, post_text VARCHAR(255) NOT NULL , post_type VARCHAR(128) NOT NULL , post_votes VARCHAR(128) NOT NULL );
+CREATE TABLE unique_id ( id SERIAL PRIMARY KEY , post_id VARCHAR(128) NOT NULL , post_text VARCHAR(255) NOT NULL , post_type VARCHAR(128) NOT NULL , post_votes VARCHAR(128) NOT NULL );
 
 # para ver la estructura
 \d sessions_info
