@@ -109,8 +109,8 @@
     <!--<input type="text" placeholder="Please enter your secret key!"/>-->
     <span>Entrar</span>
     {{#if votante}}
-    <p>Ingresa tu nombre de usuario</p>
-    <input required type="text" name="user_name" id="user_name">
+    <p>Ingresa tu nombre de usuario.<br>(sin espacios y maximo 20 letras)</p>
+    <input required type="text" name="user_name" id="user_name" pattern="[^\s]+" maxlength="20">
     <input type="submit" value="➡" />
     {{/if}}
     {{#if controlador}}
@@ -280,7 +280,7 @@
 
             {{#if votante}}
             <form id="creencia">
-              <input type="text" id="newIdea" maxlength="45" placeholder="Creemos que..." />
+              <input type="text" id="newIdea" maxlength="80" placeholder="Creemos que..." />
               <input type="submit" value="➡" />
             </form>
             {{/if}}
