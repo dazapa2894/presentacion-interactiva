@@ -29,6 +29,22 @@
 
       {{#each sessions}}
 
+        <p>
+          is_empty?
+          <br>
+          {{is_empty}}
+        </p>
+        <p>
+          nombre_sesion?
+          <br>
+          {{nombre_sesion}}
+        </p>
+        <p>
+          fecha_sesion?
+          <br>
+          {{fecha_sesion}}
+        </p>
+
         {{#if is_empty}}
           <table>
             <caption>Sesión sin datos</caption>
@@ -60,7 +76,7 @@
       {{/each}}
 
     {{/if}}
-    
+
   {{else}}
   <h3>Aun no existen sesiones, comienza tu primera presentación para ver los resultados aquí</h3>
   {{/if}}
