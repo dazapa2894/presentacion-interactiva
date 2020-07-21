@@ -109,13 +109,13 @@ app.get('/db', async (req, res) => {
               all_sessions_data.push(this_session_data);
             } else {
               sesion_vacia = true;
-
             }
 
 
             console.log("------------ALL SESSIONS DATA--------");
             console.log(all_sessions_data);
-            
+
+
             res.render('db_views/db', {
               showdb: true,
               existen_sesiones: existen_sesiones,
@@ -123,6 +123,7 @@ app.get('/db', async (req, res) => {
               all_sessions_list: session_results.rows,
               sessions: all_sessions_data
             });
+
           });
         }
 

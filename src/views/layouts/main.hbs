@@ -11,39 +11,16 @@
 
 <body>
   {{{ body }}}
-  <p>
-    existen sesiones?
-    <br>
-  {{existen_sesiones}}
-  </p>
+
   {{#if existen_sesiones}}
 
-    <p>
-      ultima_sesion_vacia?
-      <br>
-      {{ultima_sesion_vacia}}
-    </p>
+
     {{#if ultima_sesion_vacia}}
     <P>SESION ESTA VACIA</P>
     {{else}}
 
       {{#each sessions}}
 
-        <p>
-          is_empty?
-          <br>
-          {{is_empty}}
-        </p>
-        <p>
-          nombre_sesion?
-          <br>
-          {{nombre_sesion}}
-        </p>
-        <p>
-          fecha_sesion?
-          <br>
-          {{fecha_sesion}}
-        </p>
 
         {{#if is_empty}}
           <table>
