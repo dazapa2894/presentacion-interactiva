@@ -76,10 +76,7 @@ app.get('/db', async (req, res) => {
         let table_name = element.session_id;
         // console.log('----------table_names--------');
         // console.log(table_name);
-        // si no existe ninguna sesion 
-        if (table_name == '') {
-          existen_sesiones = false;
-        } else {
+
           // en caso de que al menos hay una sesion creada
           // consulto la ultima tabla de sesion a base de la anterior consulta
           const last_session_result = client.query('SELECT * FROM ' + table_name + ';');
@@ -108,20 +105,25 @@ app.get('/db', async (req, res) => {
             console.log(all_sessions_data);
 
 
-            res.render('db_views/db', {
-              showdb: true,
-              existen_sesiones: existen_sesiones,
-              sessions: all_sessions_data
-            });
+            
 
           });
-        }
+        
 
       });
-
+      
+      
+    }else{
+      existen_sesiones = false;
     }
-
     
+    
+    //AL FINALIZAR EL FOREACH HAGO EL RENDER
+    res.render('db_views/db', {
+      showdb: true,
+      existen_sesiones: existen_sesiones,
+      sessions: all_sessions_data
+    });
 
     client.release();
 
