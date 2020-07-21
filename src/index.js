@@ -27,6 +27,14 @@ const pool = new Pool({
   //ssl: process.env.DATABASE_URL ? true : false
 });
 
+// funcion de utilidad para ejecutar un foEach async
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index]);
+  }
+}
+
+
 //Initialization ---------------------------
 const app = express();
 const http = require('http').createServer(app);
@@ -60,77 +68,62 @@ app.get('/db', async (req, res) => {
     let existen_sesiones = false;
     let sesion_vacia = false;
     let all_sessions_data = [];
-    
-    
+
+
     const sessions_table_name_result = await client.query('SELECT session_id FROM sessions_info ORDER BY creation_date DESC;');
 
     // si existe al menos una sesion
     if (sessions_table_name_result.rowCount > 0) {
       existen_sesiones = true;
-      
+
       console.log("lista de sesiones");
       console.log(sessions_table_name_result.rows);
 
-      async function asyncForEach(array, callback) {
-        for (let index = 0; index < array.length; index++){
-          await callback(array[index]);
-        }
-      }
-
-
+      /* 
+      * recorro cada uno de los nombres de las sessiones con aun forEach async 
+      * de modo que al terminar este seguro que el render tendra todos los valores 
+      */
       await asyncForEach(sessions_table_name_result.rows, async (element) => {
 
-      // recorro cada uno de los nombres de las sessiones
-      //sessions_table_name_result.rows.forEach(element => {
+        
         let table_name = element.session_id;
 
-          // en caso de que al menos hay una sesion creada
-          // consulto la ultima tabla de sesion a base de la anterior consulta
-          //const last_session_result = await client.query('SELECT * FROM ' + table_name + ';');
-          const session_data = await client.query('SELECT * FROM ' + table_name + ';');
-          //last_session_result.then(session_data => {
-            // console.log('/////////table_names 2/////////');
-            // console.log(table_name);
-            client_name = table_name.split("_::_")[0].substr(1);
-            session_date = table_name.split("_::_")[1].split("__")[0].split('_').join('-');
-            
-            // console.log(client_name);
-            // console.log(session_date);
-            // console.log(session_data.rowCount);
+        // en caso de que al menos hay una sesion creada
+        // consulto la ultima tabla de sesion a base de la anterior consulta y espero a que termmines
+        const session_data = await client.query('SELECT * FROM ' + table_name + ';');
 
-            let this_session_data = {
-              is_empty: false,
-              nombre_sesion: client_name,
-              fecha_sesion: session_date,
-              posts: session_data.rows
-            }
+        // console.log('/////////table_names 2/////////');
+        // console.log(table_name);
+        client_name = table_name.split("_::_")[0].substr(1);
+        session_date = table_name.split("_::_")[1].split("__")[0].split('_').join('-');
 
-            all_sessions_data.push(this_session_data);
+        // console.log(client_name);
+        // console.log(session_date);
+        // console.log(session_data.rowCount);
 
+        let this_session_data = {
+          is_empty: false,
+          nombre_sesion: client_name,
+          fecha_sesion: session_date,
+          posts: session_data.rows
+        }
+
+        all_sessions_data.push(this_session_data);
 
 
-            console.log("------------ALL SESSIONS DATA--------");
-            console.log(all_sessions_data);
 
+        console.log("------------ALL SESSIONS DATA--------");
+        console.log(all_sessions_data);
 
-            // //AL FINALIZAR EL FOREACH HAGO EL RENDER
-            // res.render('db_views/db', {
-            //   showdb: true,
-            //   existen_sesiones: existen_sesiones,
-            //   sessions: all_sessions_data
-            // });
-
-          //});
-        
 
       });
-      
-      
-    }else{
+
+
+    } else {
       existen_sesiones = false;
     }
-    
-    
+
+
     //AL FINALIZAR EL FOREACH HAGO EL RENDER
     res.render('db_views/db', {
       showdb: true,
