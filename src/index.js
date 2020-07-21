@@ -97,19 +97,16 @@ app.get('/db', async (req, res) => {
             // console.log(client_name);
             // console.log(session_date);
             // console.log(session_data.rowCount);
-            if (session_data.rowCount > 0) {
 
-              let this_session_data = {
-                is_empty: false,
-                nombre_sesion: client_name,
-                fecha_sesion: session_date,
-                posts: session_data.rows
-              }
-
-              all_sessions_data.push(this_session_data);
-            } else {
-              sesion_vacia = true;
+            let this_session_data = {
+              is_empty: false,
+              nombre_sesion: client_name,
+              fecha_sesion: session_date,
+              posts: session_data.rows
             }
+
+            all_sessions_data.push(this_session_data);
+
 
 
             console.log("------------ALL SESSIONS DATA--------");
@@ -119,7 +116,6 @@ app.get('/db', async (req, res) => {
             res.render('db_views/db', {
               showdb: true,
               existen_sesiones: existen_sesiones,
-              ultima_sesion_vacia: sesion_vacia,
               all_sessions_list: session_results.rows,
               sessions: all_sessions_data
             });
