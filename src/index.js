@@ -113,8 +113,8 @@ app.get('/db', async (req, res) => {
             }
 
 
-            // console.log("------------ALL SESSIONS DATA--------");
-            // console.log(all_sessions_data);
+            console.log("------------ALL SESSIONS DATA--------");
+            console.log(all_sessions_data);
           });
         }
 
