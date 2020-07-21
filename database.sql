@@ -14,6 +14,7 @@ CREATE TABLE unique_id ( id SERIAL PRIMARY KEY , post_id VARCHAR(128) NOT NULL U
 # para ver la estructura
 \d sessions_info
 \d unique_id
+\dt
 
 #para insertar registros a 'sessions_info'
 INSERT INTO sessions_info  (session_id) values ('unique-id');

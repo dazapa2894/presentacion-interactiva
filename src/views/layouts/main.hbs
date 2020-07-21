@@ -54,16 +54,16 @@
     <caption><b>Nombre de la sesion:</b> {{nombre_sesion}} / <b>fecha:</b>{{fecha_sesion}}</caption>
     <thead>
       <tr class="border-stroke">
-        {{!-- <td>ID DEL POST</td> --}}
-        <td>TEXTO DEL POST-IT</td>
-        <td>TIPO DE POST-IT</td>
-        <td>VOTOS DEL POST-IT</td>
+        <td>ID DEL POST</td>
+        <td>TEXTO DEL POST</td>
+        <td>TIPO DE POST</td>
+        <td>VOTOS DEL POST</td>
       </tr>
     </thead>
     <tbody>
       {{#each posts}}
       <tr class="border-stroke">
-        {{!-- <td>{{post_id}}</td> --}}
+        <td>{{post_id}}</td>
         <td>{{post_text}}</td>
         <td>{{post_type}}</td>
         <td>{{post_votes}}</td>
