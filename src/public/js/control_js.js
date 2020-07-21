@@ -202,6 +202,8 @@ $(function () {
 					isActive: true
 				});
 			});
+
+			
 			$("#save_idea").click(function () {
 
 				let all = {};
