@@ -76,14 +76,14 @@ app.get('/db', async (req, res) => {
       // }
 
       // recorro cada uno de los nombres de las sessiones
-      sessions_table_name_result.rows.forEach(async element => {
+      sessions_table_name_result.rows.forEach(element => {
         let table_name = element.session_id;
         // console.log('----------table_names--------');
         // console.log(table_name);
 
           // en caso de que al menos hay una sesion creada
           // consulto la ultima tabla de sesion a base de la anterior consulta
-          const last_session_result = await client.query('SELECT * FROM ' + table_name + ';');
+          const last_session_result = client.query('SELECT * FROM ' + table_name + ';');
           last_session_result.then(session_data => {
             // console.log('/////////table_names 2/////////');
             // console.log(table_name);
