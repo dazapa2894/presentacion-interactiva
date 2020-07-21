@@ -22,21 +22,6 @@ router.get('/control', (req, res) => {
   })
 });
 
-router.get('/api/db', async (req, res, next) => {
-
-  try {
-    let results = await db.all();
-    res.json(results);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-
-  // res.render('db_views/all',{
-  //   showdb: true,
-  //   test: 'test'
-  // });
-});
 
 
 module.exports = router;

@@ -26,3 +26,6 @@ INSERT INTO unique_id (post_id, post_text, post_type, post_votes) VALUES($1, $2,
 
 #para editar el hash_actual
 UPDATE sessions_info SET hash_actual = '#/21/2' WHERE session_id = '"saki_::_1_20_6_2020_17_59_7_867"'; #el nombre de la tabla debe estar entre esas comillas dobles
+
+#para eliminar
+delete from sessions_info where id='1';
