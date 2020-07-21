@@ -25,10 +25,9 @@ $(function () {
 	var socket = io();
 
 	// Variable initialization
-
 	var form = $('form.login');
 	var resetForm = $('#reset');
-	var secretTextBox = form.find('input[type=text]');
+	// var secretTextBox = form.find('input[type=text]');
 	var presentation = $('.reveal');
 
 	var key = "",
@@ -37,16 +36,22 @@ $(function () {
 	var playing = false;
 
 	// evito que salgan muchas notas repetidas al evitar que 'on access' se llame varias veces en un mismo cliente
-	let access_granted = false;
+
 	let my_unique_id = '';
 	let id_owned = false;
+	let session_id = '';
+
+	socket.on('active_session', function (data) {
+		// capturo una session anterior o la nueva
+		console.log('active sesion socket...', data);
+		sesion_actual = data;
+	});
+
 
 	resetForm.submit((e) => {
 		e.preventDefault();
 
-		socket.emit('reset', {
-
-		});
+		socket.emit('reset', {});
 	});
 
 	// When the page is loaded it asks you for a key and sends it to the server
@@ -58,7 +63,8 @@ $(function () {
 		// Aviso al server sobre la coexion del controlador
 		socket.emit('');
 
-
+		// reinicio todos los campos para una session nueva
+		socket.emit('reset', {});
 
 		//key = secretTextBox.val().trim();
 		key = "Dilian";
@@ -67,7 +73,15 @@ $(function () {
 		// through the socket.io channel with a 'load' event.
 
 		if (key.length) {
+
+			console.log("emitiendo INIT_session");
+			socket.emit('init_session', {
+				client_name: $("#client_name").val()
+			});
+
+			console.log('emitiendo log');
 			socket.emit('load', {
+				user_id: "EL CONTROLADOR",
 				key: key
 			});
 		}
@@ -77,6 +91,8 @@ $(function () {
 	socket.on('reload', (data) => {
 		//location.reload();
 	});
+
+	let access_granted = false;
 
 	// The server will either grant or deny access, depending on the secret key
 	socket.on('access', (data) => {
@@ -191,22 +207,25 @@ $(function () {
 				let all = {};
 				let post_id = '';
 				let post_text = '';
+				let post_type = '';
 				let post_votes = '';
 
 				$("#ideaHolder .postit").each((index, elem) => {
 
 					post_id = $(elem).attr("id");
 					post_text = $(elem).find("p").html();
+					post_type = 'idea';
 					post_votes = $(elem).find("span").html();
 
 					all[post_id] = {
-						post_id:post_id,
-						post_text:post_text,
-						post_votes:post_votes
+						post_id: post_id,
+						post_text: post_text,
+						post_type: post_type,
+						post_votes: post_votes
 					}
 				});
 
-				socket.emit('save_ideas', {
+				socket.emit('save_notes', {
 					posts: all,
 				});
 			});
@@ -216,22 +235,25 @@ $(function () {
 				let all = {};
 				let post_id = '';
 				let post_text = '';
+				let post_type = '';
 				let post_votes = '';
 
 				$("#purposeHolder .postit").each((index, elem) => {
 
 					post_id = $(elem).attr("id");
 					post_text = $(elem).find("p").html();
+					post_type = 'proposito';
 					post_votes = $(elem).find("span").html();
 
 					all[post_id] = {
-						post_id:post_id,
-						post_text:post_text,
-						post_votes:post_votes
+						post_id: post_id,
+						post_text: post_text,
+						post_type: post_type,
+						post_votes: post_votes
 					}
 				});
 
-				socket.emit('save_purposes', {
+				socket.emit('save_notes', {
 					posts: all
 				});
 

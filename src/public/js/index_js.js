@@ -20,27 +20,38 @@ $(function () {
 	//Reveal.toggleOverview( false );
 
 	// Connect to the socket
-
 	var socket = io();
 
 	// Variable initialization
-
-	let form = $('form.login');
-	let secretTextBox = form.find('input[type=text]');
+	// let secretTextBox = form.find('input[type=text]');
 	let presentation = $('.reveal');
-
 	let key = "",
-		text = "",
-		animationTimeout;
-
+	text = "",
+	animationTimeout;
 	let user_name,
-		idea_counter = 0,
-		purpuse_counter = 0;
+	idea_counter = 0,
+	purpuse_counter = 0;
+	
+	let sesion_actual = '';
+	
+	socket.on('active_session', function (data) {
+		console.log('active sesion socket...', data);
+		sesion_actual = data;
+	});
 
 	// When the page is loaded it asks you for a key and sends it to the server
+	let form = $('form.login');
 	let form_submited = false;
 	form.submit(function (e) {
 		e.preventDefault();
+
+
+		if(sesion_actual == ''){
+			console.log('no existe ninguna sesion...', sesion_actual);
+			return;
+		}else{
+			console.log('la session actual es: ', sesion_actual);
+		}
 
 		//key = secretTextBox.val().trim();
 		key = "Dilian";
@@ -88,7 +99,7 @@ $(function () {
 				idea: text,
 				votes: 0,
 				holder: "#purposeHolder",
-				key: user_name + '-idea-' + purpuse_counter
+				key: user_name + '-purpose-' + purpuse_counter
 			});
 			purpuse_counter++;
 

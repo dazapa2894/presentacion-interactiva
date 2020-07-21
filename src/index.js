@@ -5,9 +5,6 @@ const apiRouter = require('./routes');
 // const mysql = require('mysql');
 const bodyparser = require('body-parser');
 // unique id creator
-const {
-  v4: uuidv4
-} = require('uuid');
 
 
 // easter egg :v
@@ -20,13 +17,15 @@ const {
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
+  user: 'postgres',
+  password: 'keylogger12',
+  database: 'presentacion-interactiva',
+  /*ssl: {
     rejectUnauthorized: false
-  },
-  // ssl: process.env.DATABASE_URL ? true : false
+  },*/
+  ssl: false,
+  //ssl: process.env.DATABASE_URL ? true : false
 });
-
-const client = pool.connect();
 
 //Initialization ---------------------------
 const app = express();
@@ -54,18 +53,40 @@ app.get('/cool', (req, res) => res.send(cool()));
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
-    const session_result = await client.query('SELECT * FROM sessions_info;');
-    const other_result = await client.query('SELECT * FROM unique_id;');
+    const session_result = await client.query('SELECT * FROM sessions_info ORDER BY creation_date DESC;');
     const session_results = {
       'row': (session_result) ? session_result.rows : null
     };
-    const other_results = {
-      'row': (other_result) ? other_result.rows : null
-    };
+    
+    // obtengo el nombre de la ultima tabla de sesion
+    const last_session_table_name_result = await client.query('SELECT session_id FROM sessions_info ORDER BY creation_date DESC limit 1;');
+    let last_session_table_name = last_session_table_name_result.rows[0].session_id;
+    console.log(last_session_table_name);
+
+
+    // consulto la ultima tabla de sesion a base de la anterior consulta
+    let sesion_vacia = false;
+    let last_session_results;
+    const last_session_result = await client.query('SELECT * FROM ' + last_session_table_name + ';');
+    if (last_session_result.rowCount > 0) {
+      last_session_results = {
+        'row': (last_session_result) ? last_session_result.rows : null
+      };
+    }else{
+      sesion_vacia = true;
+      last_session_results = {
+        'row': (last_session_result) ? last_session_result.rows : null
+      }
+    }
+    console.log(last_session_result.rowCount);
+    console.log(sesion_vacia);
+
     res.render('db_views/db', {
       showdb: true,
       all_sessions: session_results.row,
-      this_session: other_results.row
+      ultima_sesion_vacia: sesion_vacia,
+      table_name: last_session_table_name,
+      this_session: last_session_results.row
     });
     client.release();
   } catch (err) {
@@ -87,10 +108,6 @@ let votacion_purpose_activa = false;
 let video_array = [];
 let session_id = '';
 
-if (session_id == '') {
-  session_id = uuidv4();
-  console.log(session_id);
-}
 
 io.on('connection', (socket) => {
 
@@ -101,25 +118,77 @@ io.on('connection', (socket) => {
   * el hash actual de la presentacion 
   * el array de objetos que mantiene actualizados a los ususarios
   - el objeto que controla los videos
+
+
   
   */
 
-  /* 
-  *** NO ES NECESARIO *** 
-  socket.on('user_disconnect', () => {
-    console.log('user disconnected');
-    // eliminar de la lista de usuarios conectados
-  });
-
-  socket.on('controler_disconnect', () => {
-    console.log('controler disconnected');
-
-    // limpiar variables del servidor
-    // sacar a todos los ususrio a la url de 'presentacion terminada' 
-  });
-  */
 
 
+  // PARA LOS CLIENTE QEU ENTRAN DESPUES DE HABER INICIADO SESION
+  if (session_id != '') {
+    socket.emit('active_session', session_id);
+
+    // tomar todos los datos de la base de datos
+
+  } else {
+    console.log('NO HAY SESIONES ACTIVAS');
+  }
+
+  // recibo la orden de iniciar session
+  socket.on('init_session', (data) => {
+
+    if (session_id == '') {
+      var datetime = new Date();
+      // CREO UN FORMATO DE FECHA PARA HACER LA TABLA UNICA "nombreTabla_dia_mes_año_hora_minuto_segundo_mili"
+      let day = datetime.getDate();
+      let month = datetime.getMonth();
+      let year = datetime.getFullYear();
+      let hour = datetime.getHours();
+      let minute = datetime.getMinutes();
+      let second = datetime.getSeconds();
+      let mili = datetime.getMilliseconds();
+      var my_date_format = day + '_' + month + '_' + year + '__' + hour + '_' + minute + '_' + second + '_' + mili;
+
+      // el '_::_' sera el separador para identificar el nombre del cliente
+      session_id = data.client_name + '_::_' + my_date_format;
+      console.log('nueva sesion activa = ', session_id);
+    }
+
+
+    try {
+      const client = pool.connect();
+      client.then(connection => {
+
+        session_id = connection.escapeIdentifier(session_id);
+        console.log("escaped session_id = ", session_id);
+        let new_table_result = connection.query("CREATE TABLE IF NOT EXISTS " + session_id + " ( id SERIAL PRIMARY KEY , post_id VARCHAR(128) NOT NULL UNIQUE, post_text VARCHAR(255) NOT NULL , post_type VARCHAR(128) NOT NULL , post_votes VARCHAR(128) NOT NULL );");
+
+        new_table_result.then(new_table_data => {
+          // console.log(new_table_data);
+          console.log("TABLA '" + session_id + "' CREADA...");
+          let insert_in_table_list_result = connection.query("INSERT INTO sessions_info(session_id) values($1);", [session_id]);
+
+          new_table_result.then(insert_in_table_list_data => {
+            //  console.log(insert_in_table_list_data);
+            console.log("NOMBRE DE LA TABLA '" + session_id + "' INSERTADA EN LA LISTA...");
+
+            console.log("ACTIVANDO SESSION DE SOCKET");
+            io.emit('active_session', session_id);
+          });
+        });
+        connection.release();
+      });
+
+    } catch (err) {
+      console.error(err);
+      console.log("Error " + err);
+    }
+
+  }); // SOCKET END init_session
+
+
+  // REINICIO LAS VARIABLES DEL SERVIDOR
   socket.on('reset', (data) => {
     //no envio datos
     hashActual = '';
@@ -140,6 +209,25 @@ io.on('connection', (socket) => {
     // console.log(data.key);
     console.log('"', data.user_id, '" se ha conectado...');
 
+    //
+    try {
+      const client = pool.connect();
+      client.then(connection => {
+        let session_vars_result = connection.query("SELECT * FROM public.sessions_info WHERE session_id = $1 ORDER BY creation_date ASC LIMIT 1;", [session_id]);
+
+        session_vars_result.then(session_vars_data => {
+          console.log('session_vars_data = ', session_vars_data);
+          
+        });
+
+        connection.release();
+      });
+
+    } catch (err) {
+      console.error(err);
+      console.log("Error " + err);
+    }
+
     // hacer algo cuando un ususario se logee
 
     if (data.key == "Dilian") {
@@ -148,7 +236,6 @@ io.on('connection', (socket) => {
       io.emit("refresh_ideas", postit_array);
       io.emit("enableVotation", votacion_ideas_activa);
       io.emit("enableVotation2", votacion_purpose_activa);
-
     } else {
       io.emit('access', "nope");
     }
@@ -194,7 +281,7 @@ io.on('connection', (socket) => {
 
     // actializo el array de ideas
     postit_array[data.key] = data;
-    
+
     //ideas
     io.emit("refresh_ideas", postit_array);
   });
@@ -213,71 +300,44 @@ io.on('connection', (socket) => {
   });
 
   // para guardar filas en la BD
-  socket.on('save_ideas', (data) => {
-    console.log(data);
-  });
-
-  socket.on('save_purposes', (data) => {
+  socket.on('save_notes', (data) => {
 
     // app.all('*', async (req, res) => {
-      let posts = data.posts;
+    let posts = data.posts;
 
-      Object.keys(posts).forEach(key => {
-            console.log(key, posts[key]);
-            // console.log(posts[key].post_id);
-            // console.log(posts[key].post_text);
-            // console.log(posts[key].post_votes);
-
-
-            try {
-              const client = pool.connect();
-              client.then(connection => {
-                // let session_result = connection.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
-                let session_result = connection.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
-                
-                session_result.then(results => {
-                  console.log(results);
-                  let insert_results = {
-                    'row': (results) ? results.rows: null
-                  };
-                  console.log(insert_results);
-                });
-                
-                connection.release();
-              });
-
-            } catch (err) {
-              console.error(err);
-              console.log("Error " + err);
-            }
-
-            // const pool = new Pool({
-            //   connectionString: process.env.DATABASE_URL,
-            //   ssl: {
-            //     rejectUnauthorized: false
-            //   },
-            //   // ssl: process.env.DATABASE_URL ? true : false
-            // });
-
-            // try {
-            //   const client = pool.connect();
-            //   let results = client.query("INSERT INTO unique_id  (post_id, post_text, post_type) values ('test-id', 'test-text', 'test-type')");
-            //   //let results = client.query("INSERT INTO unique_id (post_id, post_text, post_type) values ($1, $2, $3);", [posts[key].post_id, posts[key].post_text, posts[key].post_votes]);
-            //   console.log(results);
-            //   let insert_results = {
-            //     'row': (session_result) ? session_result.rows : null
-            //   };
-            //   console.log(insert_results);
-            //   client.release();
-            // } catch (err) {
-            //   console.error(err);
-            //   console.log("Error " + err);
-            // }
-    })
+    Object.keys(posts).forEach(key => {
+      console.log("GUARDANDO ESTOS DATOS DEL POST");
+      console.log(posts[key].post_id);
+      console.log(posts[key].post_text);
+      console.log(posts[key].post_type);
+      console.log(posts[key].post_votes);
 
 
-    
+      try {
+        const client = pool.connect();
+        client.then(connection => {
+          // let sql = "INSERT INTO " + session_id + " (post_id, post_text, post_type, post_votes) values ($1, $2, $3, $4);";
+          let sql = "INSERT INTO " + session_id + " (post_id, post_text, post_type, post_votes) VALUES ($1, $2, $3, $4) ON CONFLICT(post_id) DO UPDATE SET post_votes = EXCLUDED.post_votes;";
+          
+          let session_result = connection.query(sql, [posts[key].post_id, posts[key].post_text, posts[key].post_type, posts[key].post_votes]);
 
+          session_result.then(results => {
+            console.log(results);
+            let insert_results = {
+              'row': (results) ? results.rows : null
+            };
+            console.log(insert_results);
+          });
+
+          connection.release();
+        });
+
+      } catch (err) {
+        console.error(err);
+        console.log("Error " + err);
+      }
+
+    });
     // });
 
   });

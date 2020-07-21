@@ -14,7 +14,13 @@
   ALL SESSIONS
   <table>
     <tbody>
-
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>ID DE LA SESIÓN</td>
+          <td>FECHA DE CREACIÓN</td>
+        </tr>
+      </thead>
       {{#each all_sessions}}
       <tr>
         <td>{{id}}</td>
@@ -27,18 +33,37 @@
     </tbody>
   </table>
 
-  THIS SESSION
-  <table>
-    <tbody>
-      {{#each this_session}}
-      <tr>
-        <td>{{post_id}}</td>
-        <td>{{post_text}}</td>
-        <td>{{post_type}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+
+
+<p>LAST SESSION: <span>{{table_name}}</span></p>
+  {{#if ultima_sesion_vacia}}
+  <P>LA ULTIMA SESION ESTA VACIA</P>
+  {{else}}
+
+    <table>
+      <thead>
+        <tr>
+          <td>ID DEL POST</td>
+          <td>TEXTO DEL POST</td>
+          <td>TIPO DE POST</td>
+          <td>VOTOS DEL POST</td>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this_session}}
+        <tr>
+          <td>{{post_id}}</td>
+          <td>{{post_text}}</td>
+          <td>{{post_type}}</td>
+          <td>{{post_votes}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+  {{/if}}
+
+
 </body>
 
 </html>
@@ -90,12 +115,26 @@
 
 
   <form class="login">
-    <span>Entrar</span>
     <!--<input type="text" placeholder="Please enter your secret key!"/>-->
+    <span>Entrar</span>
     {{#if votante}}
+    <p>Ingresa tu nombre de usuario</p>
     <input required type="text" name="user_name" id="user_name">
-    {{/if}}
     <input type="submit" value="➡" />
+    {{/if}}
+    {{#if controlador}}
+    {{!-- <span>Retomar sesion o crear session</span>
+    <div id="datos_sobre_retomar_sesion">
+      <p>no hay sesiones por retomar</p>
+      <div>
+        <p>retomar session del cliente <span id="nombre_cliente"></span></p>
+        <p>fecha de la sesión<span id="fecha_sesion"></span></p>
+      </div>
+    </div> --}}
+    <p>Ingresa el nombre de la sesión <br>(por ejemplo el nombre del cliente)</p>
+    <input required type="text" name="client_name" id="client_name">
+    <input type="submit" value="➡" />
+    {{/if}}
   </form>
 
   <div class="reveal blurred">
