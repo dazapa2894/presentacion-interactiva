@@ -17,70 +17,50 @@
   {{existen_sesiones}}
   </p>
   {{#if existen_sesiones}}
-  {{!-- 
-  ALL SESSIONS
-  <table>
-    <tbody>
-      <thead>
-        <tr class="border-stroke">
-          <td>ID</td>
-          <td>ID DE LA SESIÓN</td>
-          <td>FECHA DE CREACIÓN</td>
-        </tr>
-      </thead>
-      {{#each all_sessions_list}}
-      <tr class="border-stroke">
-        <td>{{id}}</td>
-        <td>{{session_id}}</td>
-        <td>{{creation_date}}</td>
-      </tr>
+
+    <p>
+      ultima_sesion_vacia?
+      <br>
+      {{ultima_sesion_vacia}}
+    </p>
+    {{#if ultima_sesion_vacia}}
+    <P>SESION ESTA VACIA</P>
+    {{else}}
+
+      {{#each sessions}}
+
+        {{#if is_empty}}
+          <table>
+            <caption>Sesión sin datos</caption>
+          </table>
+        {{else}}
+          <table>
+            <caption><b>Nombre de la sesion:</b> {{nombre_sesion}} / <b>fecha:</b>{{fecha_sesion}}</caption>
+            <thead>
+              <tr class="border-stroke">
+                <td>TEXTO DEL POST</td>
+                <td>TIPO DE POST</td>
+                <td>VOTOS DEL POST</td>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each posts}}
+              <tr class="border-stroke">
+                <td>{{post_text}}</td>
+                <td>{{post_type}}</td>
+                <td>{{post_votes}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        {{/if}}
+        
+        
+        <br>
       {{/each}}
 
-
-    </tbody>
-  </table>
-  --}}
-
-  {{#if ultima_sesion_vacia}}
-  <P>SESION ESTA VACIA</P>
-  {{else}}
-
-
-
-  {{#each sessions}}
-
-  {{#if is_empty}}
-  <table>
-    <caption>Sesión sin datos</caption>
-  </table>
-  {{else}}
-  <table>
-    <caption><b>Nombre de la sesion:</b> {{nombre_sesion}} / <b>fecha:</b>{{fecha_sesion}}</caption>
-    <thead>
-      <tr class="border-stroke">
-        <td>TEXTO DEL POST</td>
-        <td>TIPO DE POST</td>
-        <td>VOTOS DEL POST</td>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each posts}}
-      <tr class="border-stroke">
-        <td>{{post_text}}</td>
-        <td>{{post_type}}</td>
-        <td>{{post_votes}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  {{/if}}
-  
-  
-  <br>
-  {{/each}}
-
-
-  {{/if}}
+    {{/if}}
+    
   {{else}}
   <h3>Aun no existen sesiones, comienza tu primera presentación para ver los resultados aquí</h3>
   {{/if}}
