@@ -1,0 +1,40 @@
+// out: ../css/tables_style.min.css
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+table {
+  caption {
+    background-color: rgb(109, 175, 236);
+    padding: 10px;
+  }
+
+  thead {
+    background-color: rgb(54, 149, 238);
+
+    tr {
+      td {
+        padding: 10px;
+        color: #fff;
+      }
+    }
+  }
+
+  tbody {
+
+    tr {
+      &:nth-child(odd) {
+        background: #f7f7f7;
+      }
+
+      &:nth-child(even) {
+        background: #d1d1d1;
+      }
+
+      td {
+        min-width: 165px;
+        padding: 10px 0;
+      }
+    }
+  }
+}

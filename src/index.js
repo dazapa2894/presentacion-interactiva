@@ -55,40 +55,83 @@ app.get('/db', async (req, res) => {
     const client = await pool.connect();
     const session_result = await client.query('SELECT * FROM sessions_info ORDER BY creation_date DESC;');
     const session_results = {
-      'row': (session_result) ? session_result.rows : null
+      'rows': (session_result) ? session_result.rows : null
     };
-    
+
     // obtengo el nombre de la ultima tabla de sesion
-    const last_session_table_name_result = await client.query('SELECT session_id FROM sessions_info ORDER BY creation_date DESC limit 1;');
-    let last_session_table_name = last_session_table_name_result.rows[0].session_id;
-    console.log(last_session_table_name);
 
-
-    // consulto la ultima tabla de sesion a base de la anterior consulta
+    let table_name = '';
+    let client_name = '';
+    let session_date = '';
+    let existen_sesiones = false;
     let sesion_vacia = false;
-    let last_session_results;
-    const last_session_result = await client.query('SELECT * FROM ' + last_session_table_name + ';');
-    if (last_session_result.rowCount > 0) {
-      last_session_results = {
-        'row': (last_session_result) ? last_session_result.rows : null
-      };
-    }else{
-      sesion_vacia = true;
-      last_session_results = {
-        'row': (last_session_result) ? last_session_result.rows : null
-      }
+
+    let all_sessions_data = [];
+
+    const sessions_table_name_result = await client.query('SELECT session_id FROM sessions_info ORDER BY creation_date DESC;');
+
+    // si existe al menos una sesion
+    if (sessions_table_name_result.rowCount > 0) {
+      existen_sesiones = true;
+      
+      console.log("lista de sesiones");
+      console.log(sessions_table_name_result.rows);
+
+      // recorro cada uno de los nombres de las sessiones
+      sessions_table_name_result.rows.forEach(element => {
+        let table_name = element.session_id;
+        console.log('----------table_names--------');
+        console.log(table_name);
+        // si no existe ninguna sesion 
+        if (table_name == '') {
+          existen_sesiones = false;
+        } else {
+          // en caso de que al menos hay una sesion creada
+          // consulto la ultima tabla de sesion a base de la anterior consulta
+          const last_session_result = client.query('SELECT * FROM ' + table_name + ';');
+          last_session_result.then(session_data => {
+            console.log('/////////table_names 2/////////');
+            console.log(table_name);
+            client_name = table_name.split("_::_")[0].substr(1);
+            session_date = table_name.split("_::_")[1].split("__")[0].split('_').join('-');
+            console.log(client_name);
+            console.log(session_date);
+            console.log(session_data.rowCount);
+            if (session_data.rowCount > 0) {
+
+              let this_session_data = {
+                is_empty: false,
+                nombre_sesion: client_name,
+                fecha_sesion: session_date,
+                posts: session_data.rows
+              }
+
+              all_sessions_data.push(this_session_data);
+            } else {
+              sesion_vacia = true;
+
+            }
+
+
+            console.log("------------ALL SESSIONS DATA--------");
+            console.log(all_sessions_data);
+          });
+        }
+
+      });
+
     }
-    console.log(last_session_result.rowCount);
-    console.log(sesion_vacia);
 
     res.render('db_views/db', {
       showdb: true,
-      all_sessions: session_results.row,
+      existen_sesiones: existen_sesiones,
       ultima_sesion_vacia: sesion_vacia,
-      table_name: last_session_table_name,
-      this_session: last_session_results.row
+      all_sessions_list: session_results.rows,
+      sessions: all_sessions_data
     });
+
     client.release();
+
   } catch (err) {
     console.error(err);
     res.send("Error " + err);
@@ -217,7 +260,7 @@ io.on('connection', (socket) => {
 
         session_vars_result.then(session_vars_data => {
           console.log('session_vars_data = ', session_vars_data);
-          
+
         });
 
         connection.release();
@@ -318,7 +361,7 @@ io.on('connection', (socket) => {
         client.then(connection => {
           // let sql = "INSERT INTO " + session_id + " (post_id, post_text, post_type, post_votes) values ($1, $2, $3, $4);";
           let sql = "INSERT INTO " + session_id + " (post_id, post_text, post_type, post_votes) VALUES ($1, $2, $3, $4) ON CONFLICT(post_id) DO UPDATE SET post_votes = EXCLUDED.post_votes;";
-          
+
           let session_result = connection.query(sql, [posts[key].post_id, posts[key].post_text, posts[key].post_type, posts[key].post_votes]);
 
           session_result.then(results => {
