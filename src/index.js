@@ -359,7 +359,6 @@ io.on('connection', (socket) => {
       try {
         const client = pool.connect();
         client.then(connection => {
-          // let sql = "INSERT INTO " + session_id + " (post_id, post_text, post_type, post_votes) values ($1, $2, $3, $4);";
           let sql = "INSERT INTO " + session_id + " (post_id, post_text, post_type, post_votes) VALUES ($1, $2, $3, $4) ON CONFLICT(post_id) DO UPDATE SET post_votes = EXCLUDED.post_votes;";
 
           let session_result = connection.query(sql, [posts[key].post_id, posts[key].post_text, posts[key].post_type, posts[key].post_votes]);
