@@ -53,21 +53,15 @@ app.get('/cool', (req, res) => res.send(cool()));
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
-    const session_result = await client.query('SELECT * FROM sessions_info ORDER BY creation_date DESC;');
-    const session_results = {
-      'rows': (session_result) ? session_result.rows : null
-    };
-
-    // obtengo el nombre de la ultima tabla de sesion
 
     let table_name = '';
     let client_name = '';
     let session_date = '';
     let existen_sesiones = false;
     let sesion_vacia = false;
-
     let all_sessions_data = [];
-
+    
+    
     const sessions_table_name_result = await client.query('SELECT session_id FROM sessions_info ORDER BY creation_date DESC;');
 
     // si existe al menos una sesion
@@ -94,6 +88,7 @@ app.get('/db', async (req, res) => {
             // console.log(table_name);
             client_name = table_name.split("_::_")[0].substr(1);
             session_date = table_name.split("_::_")[1].split("__")[0].split('_').join('-');
+            
             // console.log(client_name);
             // console.log(session_date);
             // console.log(session_data.rowCount);
@@ -116,7 +111,6 @@ app.get('/db', async (req, res) => {
             res.render('db_views/db', {
               showdb: true,
               existen_sesiones: existen_sesiones,
-              all_sessions_list: session_results.rows,
               sessions: all_sessions_data
             });
 
