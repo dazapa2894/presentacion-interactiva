@@ -48,6 +48,7 @@ $(function () {
 
 		if(sesion_actual == ''){
 			console.log('no existe ninguna sesion...', sesion_actual);
+			alert("Aun no se ha creado la sesión, espera un momento...");
 			return;
 		}else{
 			console.log('la session actual es: ', sesion_actual);
