@@ -80,8 +80,8 @@ app.get('/db', async (req, res) => {
       // recorro cada uno de los nombres de las sessiones
       sessions_table_name_result.rows.forEach(element => {
         let table_name = element.session_id;
-        console.log('----------table_names--------');
-        console.log(table_name);
+        // console.log('----------table_names--------');
+        // console.log(table_name);
         // si no existe ninguna sesion 
         if (table_name == '') {
           existen_sesiones = false;
@@ -90,13 +90,13 @@ app.get('/db', async (req, res) => {
           // consulto la ultima tabla de sesion a base de la anterior consulta
           const last_session_result = client.query('SELECT * FROM ' + table_name + ';');
           last_session_result.then(session_data => {
-            console.log('/////////table_names 2/////////');
-            console.log(table_name);
+            // console.log('/////////table_names 2/////////');
+            // console.log(table_name);
             client_name = table_name.split("_::_")[0].substr(1);
             session_date = table_name.split("_::_")[1].split("__")[0].split('_').join('-');
-            console.log(client_name);
-            console.log(session_date);
-            console.log(session_data.rowCount);
+            // console.log(client_name);
+            // console.log(session_date);
+            // console.log(session_data.rowCount);
             if (session_data.rowCount > 0) {
 
               let this_session_data = {
@@ -113,8 +113,8 @@ app.get('/db', async (req, res) => {
             }
 
 
-            console.log("------------ALL SESSIONS DATA--------");
-            console.log(all_sessions_data);
+            // console.log("------------ALL SESSIONS DATA--------");
+            // console.log(all_sessions_data);
           });
         }
 
@@ -154,7 +154,7 @@ let session_id = '';
 
 io.on('connection', (socket) => {
 
-  console.log('a user connected');
+  // console.log('a user connected');
 
   /* 
   llenar variables del servidor que controlen: 
@@ -204,7 +204,6 @@ io.on('connection', (socket) => {
       client.then(connection => {
 
         session_id = connection.escapeIdentifier(session_id);
-        console.log("escaped session_id = ", session_id);
         let new_table_result = connection.query("CREATE TABLE IF NOT EXISTS " + session_id + " ( id SERIAL PRIMARY KEY , post_id VARCHAR(128) NOT NULL UNIQUE, post_text VARCHAR(255) NOT NULL , post_type VARCHAR(128) NOT NULL , post_votes VARCHAR(128) NOT NULL );");
 
         new_table_result.then(new_table_data => {
@@ -349,11 +348,11 @@ io.on('connection', (socket) => {
     let posts = data.posts;
 
     Object.keys(posts).forEach(key => {
-      console.log("GUARDANDO ESTOS DATOS DEL POST");
-      console.log(posts[key].post_id);
-      console.log(posts[key].post_text);
-      console.log(posts[key].post_type);
-      console.log(posts[key].post_votes);
+      // console.log("GUARDANDO ESTOS DATOS DEL POST");
+      // console.log(posts[key].post_id);
+      // console.log(posts[key].post_text);
+      // console.log(posts[key].post_type);
+      // console.log(posts[key].post_votes);
 
 
       try {
@@ -364,11 +363,11 @@ io.on('connection', (socket) => {
           let session_result = connection.query(sql, [posts[key].post_id, posts[key].post_text, posts[key].post_type, posts[key].post_votes]);
 
           session_result.then(results => {
-            console.log(results);
+            // console.log(results);
             let insert_results = {
               'row': (results) ? results.rows : null
             };
-            console.log(insert_results);
+            // console.log(insert_results);
           });
 
           connection.release();
