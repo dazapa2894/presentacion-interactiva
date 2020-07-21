@@ -110,7 +110,7 @@
     <span>Entrar</span>
     {{#if votante}}
     <p>Ingresa tu nombre de usuario.<br>(sin espacios y maximo 20 letras)</p>
-    <input required type="text" name="user_name" id="user_name" pattern="[^\s]+" maxlength="20">
+    <input required type="text" name="user_name" id="user_name" pattern="^[-a-zA-Z0-9_]+$" maxlength="20">
     <input type="submit" value="➡" />
     {{/if}}
     {{#if controlador}}
@@ -122,8 +122,8 @@
         <p>fecha de la sesión<span id="fecha_sesion"></span></p>
       </div>
     </div> --}}
-    <p>Ingresa el nombre de la sesión <br>(por ejemplo el nombre del cliente)</p>
-    <input required type="text" name="client_name" id="client_name">
+    <p>Ingresa el nombre de la sesión <br>(por ejemplo el nombre del cliente)<br>(sin espacios y maximo 20 letras)</p>
+    <input required type="text" name="client_name" pattern="^[-a-zA-Z0-9_]+$" maxlength="20" id="client_name">
     <input type="submit" value="➡" />
     {{/if}}
   </form>
