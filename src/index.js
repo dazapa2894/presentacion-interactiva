@@ -71,15 +71,19 @@ app.get('/db', async (req, res) => {
       console.log("lista de sesiones");
       console.log(sessions_table_name_result.rows);
 
+      // async function asyncForEach(array, callback) {
+      //   for (let index = 0; index < array.len)
+      // }
+
       // recorro cada uno de los nombres de las sessiones
-      sessions_table_name_result.rows.forEach(element => {
+      sessions_table_name_result.rows.forEach(async element => {
         let table_name = element.session_id;
         // console.log('----------table_names--------');
         // console.log(table_name);
 
           // en caso de que al menos hay una sesion creada
           // consulto la ultima tabla de sesion a base de la anterior consulta
-          const last_session_result = client.query('SELECT * FROM ' + table_name + ';');
+          const last_session_result = await client.query('SELECT * FROM ' + table_name + ';');
           last_session_result.then(session_data => {
             // console.log('/////////table_names 2/////////');
             // console.log(table_name);
@@ -105,7 +109,12 @@ app.get('/db', async (req, res) => {
             console.log(all_sessions_data);
 
 
-            
+            //AL FINALIZAR EL FOREACH HAGO EL RENDER
+            res.render('db_views/db', {
+              showdb: true,
+              existen_sesiones: existen_sesiones,
+              sessions: all_sessions_data
+            });
 
           });
         
@@ -118,12 +127,12 @@ app.get('/db', async (req, res) => {
     }
     
     
-    //AL FINALIZAR EL FOREACH HAGO EL RENDER
-    res.render('db_views/db', {
-      showdb: true,
-      existen_sesiones: existen_sesiones,
-      sessions: all_sessions_data
-    });
+    // //AL FINALIZAR EL FOREACH HAGO EL RENDER
+    // res.render('db_views/db', {
+    //   showdb: true,
+    //   existen_sesiones: existen_sesiones,
+    //   sessions: all_sessions_data
+    // });
 
     client.release();
 
