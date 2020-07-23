@@ -206,7 +206,7 @@ io.on('connection', (socket) => {
       client.then(connection => {
 
         session_id = connection.escapeIdentifier(session_id);
-        let new_table_result = connection.query("CREATE TABLE IF NOT EXISTS " + session_id + " ( id SERIAL PRIMARY KEY , post_id VARCHAR(128) NOT NULL UNIQUE, post_text VARCHAR(255) NOT NULL , post_type VARCHAR(128) NOT NULL , post_votes VARCHAR(128) NOT NULL );");
+        let new_table_result = connection.query("CREATE TABLE IF NOT EXISTS " + session_id + " ( id SERIAL PRIMARY KEY , post_id VARCHAR(500) NOT NULL UNIQUE, post_text VARCHAR NOT NULL , post_type VARCHAR(128) NOT NULL , post_votes VARCHAR(128) NOT NULL );");
 
         new_table_result.then(new_table_data => {
           // console.log(new_table_data);
