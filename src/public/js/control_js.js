@@ -29,9 +29,10 @@ $(function () {
 	var resetForm = $('#reset');
 	// var secretTextBox = form.find('input[type=text]');
 	var presentation = $('.reveal');
+	
+	var key = "Dilian",
+	animationTimeout;
 
-	var key = "",
-		animationTimeout;
 
 	var playing = false;
 
@@ -39,12 +40,24 @@ $(function () {
 
 	let my_unique_id = '';
 	let id_owned = false;
-	let session_id = '';
+	let sesion_actual = '';
+	let sesion_creada = false;
 
 	socket.on('active_session', function (data) {
 		// capturo una session anterior o la nueva
-		console.log('active sesion socket...', data);
 		sesion_actual = data;
+		console.log('active sesion socket...', sesion_actual);
+
+		if (sesion_actual != '' && !sesion_creada) {
+			form.hide();
+			socket.emit('load', {
+				user_id: "EL CONTROLADOR",
+				key: key
+			});
+			alert('retomando sesión = ', sesion_actual);
+		}
+		
+
 	});
 
 
@@ -63,21 +76,29 @@ $(function () {
 		// Aviso al server sobre la coexion del controlador
 		socket.emit('');
 
-		// reinicio todos los campos para una session nueva
-		socket.emit('reset', {});
-
+		
 		//key = secretTextBox.val().trim();
 		key = "Dilian";
-
+		
 		// If there is a key, send it to the server-side
 		// through the socket.io channel with a 'load' event.
-
+		
 		if (key.length) {
+			
+			console.log("id de la session del server = ", sesion_actual);
 
-			console.log("emitiendo INIT_session");
-			socket.emit('init_session', {
-				client_name: $("#client_name").val()
-			});
+			if (sesion_actual == '') {
+				console.log("no existe una session");
+				console.log("emitiendo INIT_session");
+				// reinicio todos los campos para una session nueva
+				socket.emit('reset', {});
+				socket.emit('init_session', {
+					client_name: $("#client_name").val()
+				});
+			}
+
+			// para que no muestre el estado de "retomando sesion"
+			sesion_creada = true;
 
 			console.log('emitiendo log');
 			socket.emit('load', {

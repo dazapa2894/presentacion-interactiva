@@ -170,14 +170,15 @@ io.on('connection', (socket) => {
 
 
   // PARA LOS CLIENTE QEU ENTRAN DESPUES DE HABER INICIADO SESION
-  if (session_id != '') {
-    socket.emit('active_session', session_id);
-
-    // tomar todos los datos de la base de datos
-
-  } else {
-    console.log('NO HAY SESIONES ACTIVAS');
-  }
+  socket.emit('active_session', session_id);
+  
+  
+  // if (session_id != '') {
+  //   // tomar todos los datos de la base de datos
+  //   socket.emit('active_session', session_id);
+  // } else {
+  //   console.log('NO HAY SESIONES ACTIVAS');
+  // }
 
   // recibo la orden de iniciar session
   socket.on('init_session', (data) => {
