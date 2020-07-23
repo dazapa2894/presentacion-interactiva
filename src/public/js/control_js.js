@@ -50,6 +50,7 @@ $(function () {
 
 		if (sesion_actual != '' && !sesion_creada) {
 			form.hide();
+			presentation.removeClass('blurred');
 			socket.emit('load', {
 				user_id: "EL CONTROLADOR",
 				key: key
