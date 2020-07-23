@@ -54,7 +54,7 @@ $(function () {
 				user_id: "EL CONTROLADOR",
 				key: key
 			});
-			alert('retomando sesión = ', sesion_actual);
+			alert('retomando sesión = "'+ sesion_actual +'"');
 		}
 		
 
