@@ -82,17 +82,17 @@
 
   <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="libs/reveal.js/dist/reset.css">
-  <link rel="stylesheet" href="libs/reveal.js/dist/reveal.css">
-  <link rel="stylesheet" href="libs/reveal.js/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="/libs/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="/libs/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="/libs/reveal.js/dist/theme/black.css" id="theme">
 
   {{!-- SOLO SE MUESTRA EN EL INDEX (configurado desde routes/index.js) --}}
   {{#if votante}}
-  <link type="text/css" rel="stylesheet" href="css/animate.css" />
+  <link type="text/css" rel="stylesheet" href="/css/animate.css" />
   {{/if}}
 
   {{!-- CSS VARIABLE --}}
-  <link rel="stylesheet" href="css/{{style_name}}.min.css">
+  <link rel="stylesheet" href="/css/{{style_name}}.min.css">
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -135,144 +135,144 @@
     <div class="slides">
 
       <section>
-        <img class="pageBg" src="img/page1.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/1.jpg" alt="">
         <div class="page" id="page1"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page2.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/2.jpg" alt="">
         <div class="page" id="page2"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page3.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/3.jpg" alt="">
         <div class="page" id="page3"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page4.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/4.jpg" alt="">
         <div class="page" id="page4">
-          <video id="SimonSinek" {{video_controls}} src="video/SimonSinek.mp4"></video>
+          <video id="SimonSinek" {{video_controls}} src="/video/{{subfolder}}/SimonSinek.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page5.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/5.jpg" alt="">
         <div class="page" id="page5"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page6.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/6.jpg" alt="">
         <div class="page" id="page6"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page7.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/7.jpg" alt="">
         <div class="page" id="page7">
-          <video id="calzatodo" {{video_controls}} src="video/calzatodo.mp4"></video>
+          <video id="calzatodo" {{video_controls}} src="/video/{{subfolder}}/calzatodo.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page8.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/8.jpg" alt="">
         <div class="page" id="page8">
-          <video id="Nintendo" {{video_controls}} src="video/Nintendo.mp4"></video>
+          <video id="Nintendo" {{video_controls}} src="/video/{{subfolder}}/Nintendo.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page9.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/9.jpg" alt="">
         <div class="page" id="page9">
-          <video id="Netflix" {{video_controls}} src="video/Netflix.mp4"></video>
+          <video id="Netflix" {{video_controls}} src="/video/{{subfolder}}/Netflix.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page10.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/10.jpg" alt="">
         <div class="page" id="page10">
-          <video id="croacia" {{video_controls}} src="video/croacia.mp4"></video>
+          <video id="croacia" {{video_controls}} src="/video/{{subfolder}}/croacia.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page11.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/11.jpg" alt="">
         <div class="page" id="page11"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page12.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/12.jpg" alt="">
         <div class="page" id="page12">
-          <img id="rappi" src="img/Rappi.png">
+          <img id="rappi" src="/img/{{subfolder}}/Rappi.png">
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page13.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/13.jpg" alt="">
         <div class="page" id="page13">
-          <video id="GoogleMyLine" {{video_controls}} src="video/GoogleMyLine.mp4"></video>
+          <video id="GoogleMyLine" {{video_controls}} src="/video/{{subfolder}}/GoogleMyLine.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page14.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/14.jpg" alt="">
         <div class="page" id="page14">
-          <video id="cocacola" {{video_controls}} src="video/cocacola.mp4"></video>
+          <video id="cocacola" {{video_controls}} src="/video/{{subfolder}}/cocacola.mp4"></video>
         </div>
       </section>
 
       <section>
         <section>
-          <img class="pageBg" src="img/page15.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/15.jpg" alt="">
           <div class="page" id="page15">
-            <video id="corona" {{video_controls}} src="video/corona.mp4"></video>
+            <video id="corona" {{video_controls}} src="/video/{{subfolder}}/corona.mp4"></video>
           </div>
         </section>
         <section>
-          <img class="pageBg" src="img/page15.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/15.jpg" alt="">
           <div class="page" id="page15">
-            <video id="falabella" {{video_controls}} src="video/falabella.mp4"></video>
+            <video id="falabella" {{video_controls}} src="/video/{{subfolder}}/falabella.mp4"></video>
           </div>
         </section>
       </section>
 
 
       <section>
-        <img class="pageBg" src="img/page16.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/16.jpg" alt="">
         <div class="page" id="page16">
 
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page17.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/17.jpg" alt="">
         <div class="page" id="page17"></div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page18.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/18.jpg" alt="">
         <div class="page" id="page18">
-          <video id="apple" {{video_controls}} src="video/apple.mp4"></video>
+          <video id="apple" {{video_controls}} src="/video/{{subfolder}}/apple.mp4"></video>
         </div>
       </section>
 
       <section>
-        <img class="pageBg" src="img/page19.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/19.jpg" alt="">
         <div class="page" id="page19">
-          <video id="ikea" {{video_controls}} src="video/ikea.mp4"></video>
+          <video id="ikea" {{video_controls}} src="/video/{{subfolder}}/ikea.mp4"></video>
         </div>
       </section>
 
       <section>
         <section>
-          <img class="pageBg" src="img/page20.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/20.jpg" alt="">
           <div class="page" id="page20"></div>
         </section>
         <section>
-          <img class="pageBg" src="img/page21.jpg" alt="">
-          <div class="page" id="page21"></div>
+          <img class="pageBg" src="/img/{{subfolder}}/20-1.jpg" alt="">
+          <div class="page" id="page20-1"></div>
         </section>
         <section>
-          <img class="pageBg" src="img/page26.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/board.jpg" alt="">
           <div class="page" id="page20">
 
             {{#if controlador}}
@@ -294,29 +294,34 @@
             </div>
           </div>
         </section>
-
       </section>
 
-
-
       <section>
-        <img class="pageBg" src="img/page22.jpg" alt="">
-        <div class="page" id="page22">
-          <video id="TOMSTV" {{video_controls}} src="video/TOMSTV.mp4"></video>
+        <img class="pageBg" src="/img/{{subfolder}}/21.jpg" alt="">
+        <div class="page" id="page21">
+          <video id="TOMSTV" {{video_controls}} src="/video/{{subfolder}}/TOMSTV.mp4"></video>
         </div>
       </section>
 
       <section>
+        <img class="pageBg" src="/img/{{subfolder}}/22.jpg" alt="">
+        <div class="page" id="page22"></div>
+      </section>
+
+      <section>
+
         <section>
-          <img class="pageBg" src="img/page23.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/23.jpg" alt="">
           <div class="page" id="page23"></div>
         </section>
+
         <section>
-          <img class="pageBg" src="img/page24.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/24.jpg" alt="">
           <div class="page" id="page24"></div>
         </section>
+
         <section>
-          <img class="pageBg" src="img/page26.jpg" alt="">
+          <img class="pageBg" src="/img/{{subfolder}}/board.jpg" alt="">
           <div class="page" id="page23">
 
             {{#if controlador}}
@@ -340,40 +345,43 @@
 
 
       <section>
-        <img class="pageBg" src="img/page25.jpg" alt="">
+        <img class="pageBg" src="/img/{{subfolder}}/25.jpg" alt="">
         <div class="page" id="page25"></div>
       </section>
 
     </div>
   </div>
 
+</body>
+
+<footer>
 
   <!-- Reveal.js is for presentations -->
-  <script src="js/head.min.js"></script>
-  <script src="libs/reveal.js/dist/reveal.js"></script>
+  <script src="/js/head.min.js"></script>
+  <script src="/libs/reveal.js/dist/reveal.js"></script>
 
   {{!--     
-    {{#if controlador}}    <script src="js/_controlador/reveal.js"></script>    {{/if}}
-    {{#if votante}}    <script src="js/_votante/reveal.js"></script>    {{/if}} 
+    {{#if controlador}}    <script src="/js/_controlador/reveal.js"></script>    {{/if}}
+    {{#if votante}}    <script src="/js/_votante/reveal.js"></script>    {{/if}} 
      --}}
 
   <!-- Socket.io library -->
-  <script src="libs//socket.io/socket.js"></script>
+  <script src="/libs//socket.io/socket.js"></script>
 
 
   <!-- Main JavaScript file -->
-  <script type="text/javascript" src="js/{{script_name}}.js"></script>
+  <script type="text/javascript" src="/js/{{script_name}}.js"></script>
 
 
   {{!-- SOLO SE MUESTRA EN EL INDEX (configurado desde routes/index.js) --}}
   {{#if votante}}
-  <script src="js/wow.min.js"></script>
+  <script src="/js/wow.min.js"></script>
   <script>
     new WOW().init();
   </script>
   {{/if}}
 
-</body>
+</footer>
 
 </html>
 {{/if}}

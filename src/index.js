@@ -346,7 +346,6 @@ io.on('connection', (socket) => {
   // para guardar filas en la BD
   socket.on('save_notes', (data) => {
 
-    // app.all('*', async (req, res) => {
     let posts = data.posts;
 
     Object.keys(posts).forEach(key => {
@@ -381,7 +380,6 @@ io.on('connection', (socket) => {
       }
 
     });
-    // });
 
   });
 
