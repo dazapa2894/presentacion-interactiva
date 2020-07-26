@@ -18,7 +18,12 @@
   },
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "heroku-postbuild": "npm run build"
+  },
+  "engines": {
+    "npm": "6.10.2",
+    "node": "v12.9.1"
   },
   "keywords": [
     "presentacion",
