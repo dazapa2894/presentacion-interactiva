@@ -14,38 +14,38 @@
 
   {{#if existen_sesiones}}
 
-      {{#each sessions}}
+  {{#each sessions}}
 
 
-        {{#if is_empty}}
-          <table>
-            <caption>Sesión sin datos</caption>
-          </table>
-        {{else}}
-          <table>
-            <caption><b>Nombre de la sesión:</b> {{nombre_sesion}} / <b>fecha:</b>{{fecha_sesion}}</caption>
-            <thead>
-              <tr class="border-stroke">
-                <td>Texto del post-it</td>
-                <td>Tipo de post-it</td>
-                <td>Votos del post-it</td>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each posts}}
-              <tr class="border-stroke">
-                <td>{{post_text}}</td>
-                <td>{{post_type}}</td>
-                <td>{{post_votes}}</td>
-              </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        {{/if}}
-        
-        
-        <br>
+  {{#if is_empty}}
+  <table>
+    <caption>Sesión sin datos</caption>
+  </table>
+  {{else}}
+  <table>
+    <caption><b>Nombre de la sesión:</b> {{nombre_sesion}} / <b>fecha:</b>{{fecha_sesion}}</caption>
+    <thead>
+      <tr class="border-stroke">
+        <td>Texto del post-it</td>
+        <td>Tipo de post-it</td>
+        <td>Votos del post-it</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each posts}}
+      <tr class="border-stroke">
+        <td>{{post_text}}</td>
+        <td>{{post_type}}</td>
+        <td>{{post_votes}}</td>
+      </tr>
       {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+
+
+  <br>
+  {{/each}}
 
 
   {{else}}
@@ -114,7 +114,7 @@
     <input required type="text" name="user_name" id="user_name" pattern="^[-a-zA-Z0-9_]+$" maxlength="20">
     <input type="submit" value="➡" />
     {{/if}}
-    
+
     {{#if controlador}}
     {{!-- <span>Retomar sesion o crear session</span>
     <div id="datos_sobre_retomar_sesion">
@@ -124,8 +124,9 @@
         <p>fecha de la sesión<span id="fecha_sesion"></span></p>
       </div>
     </div> --}}
-    <p>Ingresa el nombre de la sesión, podrías llamarla por ejemplo como el cliente para poder identificarla más adelante.<br>
-    Escribe un nombre de solo letras, números y máx. 30 letras.</p>
+    <p>Ingresa el nombre de la sesión, podrías llamarla por ejemplo como el cliente para poder identificarla más
+      adelante.<br>
+      Escribe un nombre de solo letras, números y máx. 30 letras.</p>
     <input required type="text" name="client_name" pattern="^[-a-zA-Z0-9_ ]+$" maxlength="30" id="client_name">
     <input type="submit" value="➡" />
     {{/if}}
@@ -152,7 +153,15 @@
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/4.jpg" alt="">
         <div class="page" id="page4">
+          {{#if empresarial}}
           <video id="SimonSinek" {{video_controls}} src="/video/{{subfolder}}/SimonSinek.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="SimonSinek" {{video_controls}} src="/video/{{subfolder}}/SimonSinek.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="SimonSinek" {{video_controls}} src="/video/{{subfolder}}/SimonSinek.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
@@ -169,28 +178,64 @@
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/7.jpg" alt="">
         <div class="page" id="page7">
+          {{#if empresarial}}
           <video id="calzatodo" {{video_controls}} src="/video/{{subfolder}}/calzatodo.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="calzatodo" {{video_controls}} src="/video/{{subfolder}}/calzatodo.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="calzatodo" {{video_controls}} src="/video/{{subfolder}}/calzatodo.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/8.jpg" alt="">
         <div class="page" id="page8">
+          {{#if empresarial}}
           <video id="Nintendo" {{video_controls}} src="/video/{{subfolder}}/Nintendo.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="valor_para_cambiar" {{video_controls}}
+            src="/video/{{subfolder}}/El Valor para Cambiar.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="valor_para_cambiar" {{video_controls}}
+            src="/video/{{subfolder}}/El Valor para Cambiar.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/9.jpg" alt="">
         <div class="page" id="page9">
+          {{#if empresarial}}
           <video id="Netflix" {{video_controls}} src="/video/{{subfolder}}/Netflix.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="verdad_muy_incomoda" {{video_controls}}
+            src="/video/{{subfolder}}/Una Verdad Muy Incómoda-.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="verdad_muy_incomoda" {{video_controls}}
+            src="/video/{{subfolder}}/Una Verdad Muy Incómoda-.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/10.jpg" alt="">
         <div class="page" id="page10">
+          {{#if empresarial}}
           <video id="croacia" {{video_controls}} src="/video/{{subfolder}}/croacia.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="croacia" {{video_controls}} src="/video/{{subfolder}}/croacia.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="croacia" {{video_controls}} src="/video/{{subfolder}}/croacia.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
@@ -202,21 +247,45 @@
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/12.jpg" alt="">
         <div class="page" id="page12">
+          {{#if empresarial}}
           <img id="rappi" src="/img/{{subfolder}}/Rappi.png">
+          {{/if}}
+          {{#if politico_i}}
+          <video id="diana" {{video_controls}} src="/video/{{subfolder}}/DIANA.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="diana" {{video_controls}} src="/video/{{subfolder}}/DIANA.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/13.jpg" alt="">
         <div class="page" id="page13">
+          {{#if empresarial}}
           <video id="GoogleMyLine" {{video_controls}} src="/video/{{subfolder}}/GoogleMyLine.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="GoogleMyLine" {{video_controls}} src="/video/{{subfolder}}/GoogleMyLine.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="GoogleMyLine" {{video_controls}} src="/video/{{subfolder}}/GoogleMyLine.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/14.jpg" alt="">
         <div class="page" id="page14">
+          {{#if empresarial}}
           <video id="cocacola" {{video_controls}} src="/video/{{subfolder}}/cocacola.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="cocacola" {{video_controls}} src="/video/{{subfolder}}/COCA COLA.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="cocacola" {{video_controls}} src="/video/{{subfolder}}/COCA COLA.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
@@ -224,13 +293,29 @@
         <section>
           <img class="pageBg" src="/img/{{subfolder}}/15.jpg" alt="">
           <div class="page" id="page15">
+            {{#if empresarial}}
             <video id="corona" {{video_controls}} src="/video/{{subfolder}}/corona.mp4"></video>
+            {{/if}}
+            {{#if politico_i}}
+            <video id="corona" {{video_controls}} src="/video/{{subfolder}}/corona.mp4"></video>
+            {{/if}}
+            {{#if politico_d}}
+            <video id="corona" {{video_controls}} src="/video/{{subfolder}}/corona.mp4"></video>
+            {{/if}}
           </div>
         </section>
         <section>
           <img class="pageBg" src="/img/{{subfolder}}/15.jpg" alt="">
           <div class="page" id="page15">
+            {{#if empresarial}}
             <video id="falabella" {{video_controls}} src="/video/{{subfolder}}/falabella.mp4"></video>
+            {{/if}}
+            {{#if politico_i}}
+            <video id="sprite" {{video_controls}} src="/video/{{subfolder}}/SRPITE.mp4"></video>
+            {{/if}}
+            {{#if politico_d}}
+            <video id="falabella" {{video_controls}} src="/video/{{subfolder}}/falabella.mp4"></video>
+            {{/if}}
           </div>
         </section>
       </section>
@@ -251,14 +336,30 @@
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/18.jpg" alt="">
         <div class="page" id="page18">
+          {{#if empresarial}}
           <video id="apple" {{video_controls}} src="/video/{{subfolder}}/apple.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="obama" {{video_controls}} src="/video/{{subfolder}}/OBAMA.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="obama" {{video_controls}} src="/video/{{subfolder}}/OBAMA.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/19.jpg" alt="">
         <div class="page" id="page19">
+          {{#if empresarial}}
           <video id="ikea" {{video_controls}} src="/video/{{subfolder}}/ikea.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="ikea" {{video_controls}} src="/video/{{subfolder}}/ikea.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="ikea" {{video_controls}} src="/video/{{subfolder}}/ikea.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
@@ -299,7 +400,15 @@
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/21.jpg" alt="">
         <div class="page" id="page21">
+          {{#if empresarial}}
           <video id="TOMSTV" {{video_controls}} src="/video/{{subfolder}}/TOMSTV.mp4"></video>
+          {{/if}}
+          {{#if politico_i}}
+          <video id="TOMSTV" {{video_controls}} src="/video/{{subfolder}}/TOMSTV.mp4"></video>
+          {{/if}}
+          {{#if politico_d}}
+          <video id="TOMSTV" {{video_controls}} src="/video/{{subfolder}}/TOMSTV.mp4"></video>
+          {{/if}}
         </div>
       </section>
 
