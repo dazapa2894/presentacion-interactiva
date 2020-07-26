@@ -241,7 +241,11 @@
 
       <section>
         <img class="pageBg" src="/img/{{subfolder}}/11.jpg" alt="">
-        <div class="page" id="page11"></div>
+        <div class="page" id="page11">
+          {{#if politico_d}}
+          <video id="trump" {{video_controls}} src="/video/{{subfolder}}/TRUMP.mp4"></video>
+          {{/if}}
+        </div>
       </section>
 
       <section>
