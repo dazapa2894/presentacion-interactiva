@@ -1,1 +1,61 @@
 <h1>Información sobre las presentaciones</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablas de resultados</title>
+  <link rel="stylesheet" href="css/tables_style.min.css">
+</head>
+
+<body>
+  {{{ body }}}
+
+  {{#if existen_sesiones}}
+
+  {{#each sessions}}
+
+
+  {{#if is_empty}}
+  <table>
+    <caption>Sesión sin datos</caption>
+  </table>
+  {{else}}
+  <table>
+    <caption><b>Nombre de la sesión:</b> {{nombre_sesion}} / <b>fecha:</b>{{fecha_sesion}}</caption>
+    <thead>
+      <tr class="border-stroke">
+        <td>Texto del post-it</td>
+        <td>Tipo de post-it</td>
+        <td>Votos del post-it</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each posts}}
+      <tr class="border-stroke">
+        <td>{{post_text}}</td>
+        <td>{{post_type}}</td>
+        <td>{{post_votes}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+
+
+  <br>
+  {{/each}}
+
+
+  {{else}}
+  <h3>Aun no existen sesiones, comienza tu primera presentación para ver los resultados aquí</h3>
+  {{/if}}
+
+
+
+
+</body>
+
+</html>
