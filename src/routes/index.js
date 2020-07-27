@@ -30,7 +30,7 @@ router.get('/empresarial/control', (req, res) => {
 
 // lo que estoy intentando es separar las diapositivas en carpetas 
 // pero como que no detectan los estilos ni los videos o algo asi :(
-  router.get('/politico-d/', (req, res) => {
+  router.get('/pd/', (req, res) => {
     res.render('index', {
       titulo: "Presentaciones",
       style_name: "index_style",
@@ -42,7 +42,7 @@ router.get('/empresarial/control', (req, res) => {
     });
   })
   
-  router.get('/politico-d/control', (req, res) => {
+  router.get('/pd/control', (req, res) => {
     res.render('control', {
       titulo: "Controlador de presentaciones",
       style_name: "control_style",
@@ -56,7 +56,7 @@ router.get('/empresarial/control', (req, res) => {
   
   // lo que estoy intentando es separar las diapositivas en carpetas 
   // pero como que no detectan los estilos ni los videos o algo asi :(
-    router.get('/politico-i/', (req, res) => {
+    router.get('/pi/', (req, res) => {
       res.render('index', {
         titulo: "Presentaciones",
         style_name: "index_style",
@@ -68,7 +68,7 @@ router.get('/empresarial/control', (req, res) => {
       });
     })
     
-    router.get('/politico-i/control', (req, res) => {
+    router.get('/pi/control', (req, res) => {
       res.render('control', {
         titulo: "Controlador de presentaciones",
         style_name: "control_style",
