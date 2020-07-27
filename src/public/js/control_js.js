@@ -5,7 +5,7 @@ $(function () {
 
 	Reveal.initialize({
 		history: true, // Every slide will change the URL
-		width: "60%",
+		width: "65%",
 		//height: 720,
 		// Display a presentation progress bar
 		progress: true,
