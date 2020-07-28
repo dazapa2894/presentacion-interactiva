@@ -8,7 +8,7 @@ router.get('/empresarial/', (req, res) => {
     titulo: "Presentaciones",
     style_name: "index_style",
     subfolder: "empresarial",
-    video_controls: "controls",
+    video_controls: "",
     votante: true,
     script_name: "index_js",
     empresarial: true
