@@ -27,6 +27,7 @@ $(function () {
 	// Variable initialization
 	var form = $('form.login');
 	var resetForm = $('#reset');
+	// var secretTextBox = form.find('input[type=text]');
 	var presentation = $('.reveal');
 	
 	var key = "Dilian",
@@ -77,10 +78,10 @@ $(function () {
 		// Aviso al server sobre la coexion del controlador
 		socket.emit('');
 
-
-		//key = "Dilian";
-		key = $("#token").val().trim();
-
+		
+		//key = secretTextBox.val().trim();
+		key = "Dilian";
+		
 		// If there is a key, send it to the server-side
 		// through the socket.io channel with a 'load' event.
 		
@@ -167,24 +168,6 @@ $(function () {
 				});
 			});
 
-			socket.on('navigate', function (data) {
-
-				// Another device has changed its slide. Change it in this browser, too:
-				console.log('navigationg to actual hash');
-				window.location.hash = data.hash;
-
-				// The "ignore" variable stops the hash change from
-				// triggering our hashchange handler above and sending
-				// us into a never-ending cycle.
-
-				ignore = true;
-
-
-				setInterval(function () {
-					ignore = false;
-				}, 1000);
-
-			});
 
 			$("video").on("play", function (e) {
 				thaId = $(this).attr('id');
@@ -302,6 +285,23 @@ $(function () {
 			});
 
 
+			socket.on('navigate', function (data) {
+
+				// Another device has changed its slide. Change it in this browser, too:
+
+				window.location.hash = data.hash;
+
+				// The "ignore" variable stops the hash change from
+				// triggering our hashchange handler above and sending
+				// us into a never-ending cycle.
+
+				ignore = true;
+
+				setInterval(function () {
+					ignore = false;
+				}, 100);
+
+			});
 
 			socket.on('refresh_ideas', function (data) {
 
@@ -324,6 +324,12 @@ $(function () {
 
 			// Addding the "animation" class triggers the CSS keyframe
 			// animation that shakes the text input.
+
+			secretTextBox.addClass('denied animation');
+
+			animationTimeout = setTimeout(function () {
+				secretTextBox.removeClass('animation');
+			}, 1000);
 
 			form.show();
 		}

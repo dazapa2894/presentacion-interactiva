@@ -23,6 +23,7 @@ $(function () {
 	var socket = io();
 
 	// Variable initialization
+	// let secretTextBox = form.find('input[type=text]');
 	let presentation = $('.reveal');
 	let key = "",
 	text = "",
@@ -195,7 +196,7 @@ $(function () {
 
 			form.hide();
 
-			var ignore = true;
+			var ignore = false;
 
 			$(window).on('hashchange', function () {
 
@@ -227,11 +228,9 @@ $(function () {
 
 				ignore = true;
 
-
 				setInterval(function () {
 					ignore = false;
-				}, 1000);
-
+				}, 100);
 
 			});
 
