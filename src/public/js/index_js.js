@@ -195,7 +195,7 @@ $(function () {
 
 			form.hide();
 
-			var ignore = false;
+			var ignore = true;
 
 			$(window).on('hashchange', function () {
 

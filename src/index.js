@@ -292,8 +292,6 @@ io.on('connection', (socket) => {
     // actualizo la variable global del hash para que los usuarios nuevos lleguen a donde deberian
     hashActual = data;
     io.emit('navigate', hashActual);
-
-
   });
 
   // cuando interactuan con videos
