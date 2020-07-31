@@ -227,9 +227,11 @@ $(function () {
 
 				ignore = true;
 
+
 				setInterval(function () {
 					ignore = false;
-				}, 100);
+				}, 1000);
+
 
 			});
 

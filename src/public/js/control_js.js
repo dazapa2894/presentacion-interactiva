@@ -166,8 +166,7 @@ $(function () {
 					key: key
 				});
 			});
-			
-/*
+
 			socket.on('navigate', function (data) {
 
 				// Another device has changed its slide. Change it in this browser, too:
@@ -186,7 +185,7 @@ $(function () {
 				}, 1000);
 
 			});
-*/
+
 			$("video").on("play", function (e) {
 				thaId = $(this).attr('id');
 				socket.emit('play', {
