@@ -27,7 +27,6 @@ $(function () {
 	// Variable initialization
 	var form = $('form.login');
 	var resetForm = $('#reset');
-	// var secretTextBox = form.find('input[type=text]');
 	var presentation = $('.reveal');
 	
 	var key = "Dilian",
@@ -78,10 +77,10 @@ $(function () {
 		// Aviso al server sobre la coexion del controlador
 		socket.emit('');
 
-		
-		//key = secretTextBox.val().trim();
-		key = "Dilian";
-		
+
+		//key = "Dilian";
+		key = $("#token").val().trim();
+
 		// If there is a key, send it to the server-side
 		// through the socket.io channel with a 'load' event.
 		
@@ -324,12 +323,6 @@ $(function () {
 
 			// Addding the "animation" class triggers the CSS keyframe
 			// animation that shakes the text input.
-
-			secretTextBox.addClass('denied animation');
-
-			animationTimeout = setTimeout(function () {
-				secretTextBox.removeClass('animation');
-			}, 1000);
 
 			form.show();
 		}

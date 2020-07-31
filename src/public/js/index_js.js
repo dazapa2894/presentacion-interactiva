@@ -23,7 +23,6 @@ $(function () {
 	var socket = io();
 
 	// Variable initialization
-	// let secretTextBox = form.find('input[type=text]');
 	let presentation = $('.reveal');
 	let key = "",
 	text = "",

@@ -24,6 +24,7 @@
     </div> --}}
   <p>Ingresa el nombre de la sesión (nombre del cliente)<br>
     Solo letras, números y máx. 30 letras.</p>
+  <input required type="text" name="token" pattern="^[-a-zA-Z0-9_ ]+$" maxlength="30" id="token">
   <input required type="text" name="client_name" pattern="^[-a-zA-Z0-9_ ]+$" maxlength="30" id="client_name">
   <input type="submit" value="➡" />
   {{/if}}
