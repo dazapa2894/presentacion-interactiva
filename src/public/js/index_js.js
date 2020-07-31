@@ -198,6 +198,7 @@ $(function () {
 
 			var ignore = false;
 
+/*
 			$(window).on('hashchange', function () {
 
 				// Notify other clients that we have navigated to a new slide
@@ -215,6 +216,7 @@ $(function () {
 					key: key
 				});
 			});
+*/
 
 			socket.on('navigate', function (data) {
 
