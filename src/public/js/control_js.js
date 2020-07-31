@@ -166,8 +166,27 @@ $(function () {
 					key: key
 				});
 			});
+			
+/*
+			socket.on('navigate', function (data) {
+
+				// Another device has changed its slide. Change it in this browser, too:
+				console.log('navigationg to actual hash');
+				window.location.hash = data.hash;
+
+				// The "ignore" variable stops the hash change from
+				// triggering our hashchange handler above and sending
+				// us into a never-ending cycle.
+
+				ignore = true;
 
 
+				setInterval(function () {
+					ignore = false;
+				}, 1000);
+
+			});
+*/
 			$("video").on("play", function (e) {
 				thaId = $(this).attr('id');
 				socket.emit('play', {
@@ -284,23 +303,6 @@ $(function () {
 			});
 
 
-			socket.on('navigate', function (data) {
-
-				// Another device has changed its slide. Change it in this browser, too:
-
-				window.location.hash = data.hash;
-
-				// The "ignore" variable stops the hash change from
-				// triggering our hashchange handler above and sending
-				// us into a never-ending cycle.
-
-				ignore = true;
-
-				setInterval(function () {
-					ignore = false;
-				}, 100);
-
-			});
 
 			socket.on('refresh_ideas', function (data) {
 
