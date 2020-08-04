@@ -129,7 +129,7 @@ $(function () {
 			if (idesNumVotes < 5){
 				new_votes = vote_counter + 1;
 				console.log( "es un numero? = " + isNaN(new_votes));
-				if (!isNaN(new_votes)){
+				if (!isNaN(new_votes) && !null) {
 					idesNumVotes++;
 					socket.emit('ideaVoted', {
 						id: id,
@@ -158,7 +158,7 @@ $(function () {
 			if (purposeNumVotes < 5) {
 				new_votes = vote_counter + 1;
 				//console.log("es un numero? = " + isNaN(new_votes));
-				if (!isNaN(new_votes)) {
+				if (!isNaN(new_votes) && !null) {
 					purposeNumVotes++;
 					socket.emit('ideaVoted', {
 						id: id,
