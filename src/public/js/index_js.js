@@ -1,4 +1,5 @@
 $(function () {
+console.log("--------------------------------READY CALLED-----------------------------");
 
 	// Initialize the Reveal.js library with the default config options
 	// See more here https://github.com/hakimel/reveal.js#configuration
@@ -110,7 +111,9 @@ $(function () {
 
 	let ideasVotationEnabled, purposeVotationEnabled = true;
 	let idesNumVotes, purposeNumVotes = 0;
-
+	console.log("--------------------------------VOTOS EN 0-----------------------------");
+	console.log("idesNumVotes = " + idesNumVotes);
+	console.log("purposeNumVotes = " + purposeNumVotes);
 
 	$("#ideaHolder").on('click', '.postit', (e) => {
 		console.log('postit clicked');
