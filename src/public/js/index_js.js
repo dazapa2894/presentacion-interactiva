@@ -122,17 +122,23 @@ $(function () {
 		console.log('votes = ', vote_counter);
 		console.log('idesNumVotes = ', idesNumVotes);
 		console.log('ideasVotationEnabled = ', ideasVotationEnabled);
-
-
+		
+		
+		let new_votes;
 		if (ideasVotationEnabled) {
-			idesNumVotes++;
-			if (idesNumVotes >= 5) {
+			if (idesNumVotes < 5){
+				new_votes = vote_counter + 1;
+				console.log( "es un numero? = " + isNaN(new_votes));
+				if (!isNaN(new_votes)){
+					idesNumVotes++;
+					socket.emit('ideaVoted', {
+						id: id,
+						num_votes: new_votes
+					});
+				}
+			}else{
 				ideasVotationEnabled = false;
 			}
-			socket.emit('ideaVoted', {
-				id: id,
-				num_votes: vote_counter + 1
-			});
 		}
 	});
 
@@ -147,16 +153,21 @@ $(function () {
 		console.log('purposeNumVotes = ', purposeNumVotes);
 		console.log('purposeVotationEnabled = ', purposeVotationEnabled);
 
-
+		let new_votes;
 		if (purposeVotationEnabled) {
-			purposeNumVotes++;
-			if (purposeNumVotes >= 5) {
+			if (purposeNumVotes < 5) {
+				new_votes = vote_counter + 1;
+				//console.log("es un numero? = " + isNaN(new_votes));
+				if (!isNaN(new_votes)) {
+					purposeNumVotes++;
+					socket.emit('ideaVoted', {
+						id: id,
+						num_votes: new_votes
+					});
+				}
+			} else {
 				purposeVotationEnabled = false;
 			}
-			socket.emit('ideaVoted', {
-				id: id,
-				num_votes: vote_counter + 1
-			});
 		}
 
 	});
