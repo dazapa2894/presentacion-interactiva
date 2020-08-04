@@ -141,7 +141,7 @@ console.log("--------------------------------READY CALLED-----------------------
 				}
 			}else{
 				ideasVotationEnabled = false;
-				$("#ideaHolder").css("pointer-events", "none");
+				//$("#ideaHolder").css("pointer-events", "none");
 			}
 		}
 	});
@@ -171,8 +171,8 @@ console.log("--------------------------------READY CALLED-----------------------
 				}
 			} else {
 				purposeVotationEnabled = false;
-					$("#purposeHolder").css("pointer-events", "none");
-				}
+				//$("#purposeHolder").css("pointer-events", "none");
+			}
 		}
 
 	});
